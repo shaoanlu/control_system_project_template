@@ -1,55 +1,78 @@
-import numpy as np
-from typing import Dict, Union
+from abc import ABC, abstractmethod
+from typing import Any, Callable, Dict, Type, Union
 
+from src.control.base import BaseController, BaseControllerParams
 from src.control.mpc import MPCParams, MPC
 from src.control.pid import PIDParams, PID
 from src.utils import load_dataclass_from_dict
 
-class ConfigFactory:
-    def __init__(self, config: Dict):
-        self.config = config
 
-    def build(self):
-        if self.config["control_type"].lower() == "mpc":
-            return self._build_mpc()
-        elif self.config["control_type"].lower() == "pid":
-            return self._build_pid()
-        else:
-            raise ValueError(f"Invalid control type: {self.config['control_type']}")
-        
-    def _build_mpc(self):
+class ParamsBuilder(ABC):
+    """Abstract base class for parameter builders."""
+    @abstractmethod
+    def build(self, config: Dict[str, Any]) -> BaseControllerParams:
+        pass
+
+class MPCParamsBuilder(ParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> MPCParams:
         return load_dataclass_from_dict(
             dataclass=MPCParams,
-            data_dict=self.config,
+            data_dict=config,
             convert_list_to_array=True
         )
-    def _build_pid(self):
-        # return PIDParams(
-        #     control_type="pid",
-        #     kp=self.config["kp"],
-        #     ki=self.config["ki"],
-        #     kd=self.config["kd"]
-        # )
+
+class PIDParamsBuilder(ParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> PIDParams:
         return load_dataclass_from_dict(
             dataclass=PIDParams,
-            data_dict=self.config,
+            data_dict=config,
             convert_list_to_array=False,
         )
+
+class ConfigFactory:
+    """
+    To add a new controller type:
+    1. Implement a new `ParamsBuilder` class.
+    2. Add it to `params_builder_map`.
+    """
+    def __init__(self):
+        self.params_builder_map: Dict[str, Type] = {
+            "mpc": MPCParamsBuilder,
+            "pid": PIDParamsBuilder,
+        }
+
+    def build(self, config: Dict):
+        control_type = config["control_type"].lower()
+        params_builder: ParamsBuilder = self.params_builder_map.get(control_type)
+        if params_builder is None:
+            raise ValueError(
+                f"Invalid control type: {control_type}. "
+                f"Valid types are: {list(self._builders.keys())}"
+            )
+        else:
+            return params_builder.build(config)
     
 class ControllerFactory:
     """
     Example usage:
         config = load_yaml(path_to_config_file)
-        controller_config = ConfigFactory(config).build()
-        controller = ControllerFactory().build(controller_config)
+        controller_params = ConfigFactory(config).build()
+        controller = ControllerFactory().build(controller_params)
+    
+    To add a new controller type:
+    1. Add it to `controller_map`.
     """
     def __init__(self):
-        pass
+        self.controller_map: Dict[Type, Type] = {
+            MPCParams: MPC,
+            PIDParams: PID,
+        }
         
-    def build(self, config: Union[MPCParams, PIDParams]):
-        if config.control_type == "mpc":
-            return MPC(config)
-        elif config.control_type == "pid":
-            return PID(config)
-        else:
-            raise ValueError(f"Invalid control type: {config.control_type}")
+    def build(self, params: BaseControllerParams) -> BaseController:
+        controller_class = self.controller_map.get(params.__class__)
+        if controller_class is None:
+            raise ValueError(
+                f"Unsupported parameter type: {params.__class__.__name__}. "
+                f"Supported types are: {[cls.__name__ for cls in self.controller_map.keys()]}"
+            )
+        return controller_class(params)

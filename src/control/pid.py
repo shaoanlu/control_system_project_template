@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from src.control.base import BaseController
+from src.control.base import BaseController, BaseControllerParams
 
 
 @dataclass
-class PIDParams:
+class PIDParams(BaseControllerParams):
     control_type: str = "pid"
     kp: float  # Proportional gain
     ki: float  # Integral gain
