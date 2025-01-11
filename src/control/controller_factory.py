@@ -3,6 +3,7 @@ from typing import Dict, Union
 
 from src.control.mpc import MPCParams, MPC
 from src.control.pid import PIDParams, PID
+from src.utils import load_dataclass_from_dict
 
 class ConfigFactory:
     def __init__(self, config: Dict):
@@ -17,18 +18,23 @@ class ConfigFactory:
             raise ValueError(f"Invalid control type: {self.config['control_type']}")
         
     def _build_mpc(self):
-        return MPCParams(
-            control_type="mpc",
-            Q=np.array(self.config["mpc"]["Q"]),
-            R=np.array(self.config["mpc"]["R"])
+        return load_dataclass_from_dict(
+            dataclass=MPCParams,
+            data_dict=self.config,
+            convert_list_to_array=True
         )
     def _build_pid(self):
-        return PIDParams(
-            control_type="pid",
-            kp=self.config["pid"]["kp"],
-            ki=self.config["pid"]["ki"],
-            kd=self.config["pid"]["kd"]
-       )
+        # return PIDParams(
+        #     control_type="pid",
+        #     kp=self.config["kp"],
+        #     ki=self.config["ki"],
+        #     kd=self.config["kd"]
+        # )
+        return load_dataclass_from_dict(
+            dataclass=PIDParams,
+            data_dict=self.config,
+            convert_list_to_array=False,
+        )
     
 class ControllerFactory:
     """
