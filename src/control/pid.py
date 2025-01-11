@@ -12,7 +12,18 @@ class PIDParams:
 
 class PID(BaseController):
     def __init__(self, params: PIDParams):
-        pass
+        self.kp = params.kp
+        self.ki = params.ki
+        self.kd = params.kd
 
-    def control(self, error: float) -> float:
-        pass
+        self.integral = 0.0
+        self.prev_error = None
+
+    def control(self, error: float, dt: float) -> float:
+        if not (self.prev_error):
+            self.prev_error = error
+        error_diff = (error - self.prev_error) / dt
+        self.prev_error = error
+        self.integral += error * dt
+
+        return self.params.kp * error + self.params.ki * self.integral + self.kd * error_diff
