@@ -1,0 +1,104 @@
+# Software Architecture Overview
+## System Architecture
+The repository implements a modular robotics control system with four main components:
+
+1. Control (`control`)
+2. Estimation (`estimation`)
+3. Planning (`planning`)
+4. Simulation environment (`env`)
+
+```mermaid
+graph TB
+    subgraph Core Components
+        Control[Control System]
+        Estimation[State Estimation]
+        Planning[Path Planning]
+        Env[Simulation Environment]
+    end
+
+    subgraph Control System
+        CF[Controller Factory]
+        BC[Base Controller]
+        MPC[MPC Controller]
+        PID[PID Controller]
+        CF --> BC
+        BC --> MPC
+        BC --> PID
+    end
+
+    subgraph State Estimation
+        SE[State Estimator]
+        BF[Base Filter]
+        KF[Kalman Filter]
+        PF[Particle Filter]
+        CF2[Complementary Filter]
+        SE --> BF
+        BF --> KF
+        BF --> PF
+        BF --> CF2
+    end
+
+    subgraph Path Planning
+        BP[Base Planner]
+        RRT[RRT Planner]
+        BP --> RRT
+    end
+
+    subgraph Configuration
+        Config[YAML Configs]
+        Config --> |Params| Control
+        Config --> |Params| Estimation 
+        Config --> |Params| Planning
+        Config --> |Params| Env
+    end
+
+    Control --> Env
+    Estimation --> Control
+    Planning --> Control
+    Env --> Estimation
+
+    style Control fill:#f9f,stroke:#333
+    style Estimation fill:#bbf,stroke:#333
+    style Planning fill:#bfb,stroke:#333
+    style Env fill:#fbb,stroke:#333
+```
+
+## Core Components
+### 1. Control
+- Uses Factory pattern for configuration and instantiation
+- Key templates:
+    - [ControllerFactory](control/controller_factory.py) - Creates controller instances
+    - [BaseController](control/algorithm/base.py) - control algorithm interface
+  
+### 2. Estimation
+
+- Uses Observer pattern for sensor fusion
+- Key templates:
+    - [StateEstimator](estimation/state_estimator.py) - Creates state estimator interface consisting of fileter algorithms
+    - [BaseFilter](estimation/algorithm/base.py) - Filter algorithm interface
+
+### 3. Planning
+- Key templates:
+    - [BasePlanner](planning/base.py) - Planning interface
+
+### 4. Simulation Environment
+- TBU
+
+## Design Patterns
+### 1. Factory Pattern
+- Used in control module for configuration and instantiation
+- Separates object creation from algorithm logic
+
+### 2. Observer Pattern
+- Implemented in state estimation for sensor fusion
+- Allows multiple filters to update state independently
+
+### 3. Strategy Pattern
+- To be implemented. Enables runtime algorithm selection
+
+## Configuration
+- YAML-based configuration files in `config`
+- Separate configs for:
+    - Control parameters
+    - Environment settings
+    - State estimation parameters
