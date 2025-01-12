@@ -1,6 +1,5 @@
 # Control System Architecture
-## Overview
-This project implements a flexible control system architecture that supports multiple control algorithms (PID, MPC, etc.) through a modular, extensible design. The architecture follows SOLID principles and uses design patterns to ensure maintainability, testability, and ease of extension.
+This folder implements a flexible control system architecture that supports multiple control algorithms (PID, MPC, etc.) through a modular, extensible design. The architecture follows factory design patterns to ensure maintainability, testability, and ease of extension.
 
 ## Design Decisions
 ### Factory Pattern Implementation
