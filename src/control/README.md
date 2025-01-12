@@ -81,7 +81,7 @@ To add a new controller type (e.g., LQR):
 ## Configuration
 Controllers are configured via YAML files:
 ```yaml
-control_type: "mppi"
+algorithm_type: "mppi"
 Q: [1.0, 1.0, 1.0, 1.0, 1.0]
 R: [1.0, 1.0]
 constraints:

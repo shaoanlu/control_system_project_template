@@ -9,7 +9,7 @@ from src.control.algorithm.pid import PIDParams
 @dataclass
 class BaseControllerParams(ABC):
     """Base dataclass for all controller parameters."""
-    control_type: str
+    algorithm_type: str
 
 class BaseParamsBuilder(ABC):
     """Abstract base class for parameter builders."""

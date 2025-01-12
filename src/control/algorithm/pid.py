@@ -7,7 +7,7 @@ from src.utils import load_dataclass_from_dict
 
 @dataclass
 class PIDParams(BaseControllerParams):
-    control_type: str = "pid"
+    algorithm_type: str = "pid"
     kp: float  # Proportional gain
     ki: float  # Integral gain
     kd: float  # Derivative gain

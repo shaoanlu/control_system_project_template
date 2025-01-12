@@ -18,11 +18,11 @@ class ConfigFactory:
         }
 
     def build(self, config: Dict[str, Any]):
-        control_type = config["control_type"].lower()
-        params_builder: BaseParamsBuilder = self.params_builder_map.get(control_type)
+        algorithm_type = config["algorithm_type"].lower()
+        params_builder: BaseParamsBuilder = self.params_builder_map.get(algorithm_type)
         if params_builder is None:
             raise ValueError(
-                f"Invalid control type: {control_type}. "
+                f"Invalid algorithm type: {algorithm_type}. "
                 f"Valid types are: {list(self.params_builder_map.keys())}"
             )
         else:

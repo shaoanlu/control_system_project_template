@@ -7,7 +7,7 @@ from src.state_estimator.state_estimator import State
 @dataclass
 class FilterParams(ABC):
     """Base dataclass for all filter parameters."""
-    filter_type: str
+    algorithm_type: str
 
 class Filter(ABC):
     def __init__(self, params: FilterParams):
