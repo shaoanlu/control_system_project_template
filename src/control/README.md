@@ -1,0 +1,93 @@
+# Control System Architecture
+## Overview
+This project implements a flexible control system architecture that supports multiple control algorithms (PID, MPC, etc.) through a modular, extensible design. The architecture follows SOLID principles and uses design patterns to ensure maintainability, testability, and ease of extension.
+
+## Design Decisions
+### Factory Pattern Implementation
+We use the Factory pattern for several key reasons:
+
+1. **Configuration Handling**: The `ConfigFactory` separates the complexity of parsing and validating configuration parameters from the controller implementations.
+    ```python
+    # Example usage
+    config = load_yaml("controller_config.yaml")
+    params = ConfigFactory().build(config)
+    ```
+
+2. **Controller Instantiation**: The `ControllerFactory` provides a clean interface for creating controller instances without exposing their construction details.
+    ```python
+    pythonCopycontroller = ControllerFactory().build(params)
+    ```
+
+3. **Extensibility**: Adding new controller types only requires:
+    - Implementing the new controller class
+    - Adding a corresponding parameter builder
+    - Registering them in the factory maps
+
+### Separate Algorithm Directory
+The control algorithms are organized in separate directories for several benefits:
+
+1. **Modularity**: Each algorithm is self-contained with its own:
+   - Controller implementation
+   - Parameter definitions
+   - Parameter builder
+
+
+2. **Dependency Management**: Algorithms can have their own requirements without affecting others:
+   - MPC might depend on optimization libraries
+   - PID might have simpler dependencies
+
+
+3. **Testing**: Isolated algorithm directories enable:
+   - Focused unit tests
+   - Algorithm-specific test fixtures
+
+
+### Adding New Controllers
+To add a new controller type (e.g., LQR):
+
+1. Create new directory under `algorithm/`:
+    ```
+    algorithm/
+    └── lqr.py
+    ```
+
+2. Implement required classes:
+    ```python
+    class LQRParams(BaseControllerParams):
+        def validate(self):
+            # Parameter validation logic
+            pass
+
+    class LQRParamsBuilder(BaseParamsBuilder):
+        @classmethod
+        def build(cls, config: Dict) -> LQRParams:
+            # Parameter building logic
+            pass
+
+    class LQR(BaseController):
+        def compute_control(self, state):
+            # Control computation logic
+            pass
+    ```
+
+3. Register in factories:
+    ```python
+    # In ConfigFactory
+    self.params_builder_map["lqr"] = LQRParamsBuilder
+
+    # In ControllerFactory
+    self.controller_map[LQRParams] = LQR
+    ```
+
+### Configuration
+Controllers are configured via YAML files:
+```yaml
+control_type: "mppi"
+Q: [1.0, 1.0, 1.0, 1.0, 1.0]
+R: [1.0, 1.0]
+constraints:
+  input_min: -1.0
+  input_max: 1.0
+model_params:
+  # Model-specific parameters
+```
