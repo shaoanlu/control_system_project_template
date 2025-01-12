@@ -1,5 +1,4 @@
 from typing import Dict, List, Tuple
-import numpy as np
 
 from src.state_estimator.filter.base import Filter, State
 
@@ -11,6 +10,8 @@ class StateEstimator:
         estimator.add_filter('imu', ComplementaryFilter(alpha=0.98))
         estimator.add_filter('joint', KalmanFilter(process_noise, measurement_noise))
         estimator.add_filter('joint', ParticleFilter(num_particles))
+        ...
+        state = estimator.update({...})
     """
     def __init__(self):
         self.filters: List[Tuple[str, Filter]] = []

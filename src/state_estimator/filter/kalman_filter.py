@@ -10,11 +10,12 @@ class KalmanFilter(Filter):
         self.Q = process_noise
         self.R = measurement_noise
         
-    def update(self, state: State, measurement: Dict) -> None:
+    def update(self, state: State, measurement: Dict) -> State:
         # Kalman filter implementation
         predicted_state = self._predict(state)
         updated_state = self._update(predicted_state, measurement)
         self.state = updated_state
+        return self.state
     
     def _predict(self, state: State) -> State:
         # Predict state

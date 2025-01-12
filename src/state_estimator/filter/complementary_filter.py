@@ -8,6 +8,6 @@ class ComplementaryFilter(Filter):
         super().__init__()
         self.alpha = alpha
         
-    def update(self, state: State, measurement: Dict) -> None:
+    def update(self, state: State, measurement: Dict) -> State:
         # Complementary filter implementation
         pass

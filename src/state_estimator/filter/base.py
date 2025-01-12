@@ -12,9 +12,12 @@ class State:
     covariance: np.ndarray  # State covariance matrix
 
 class Filter(ABC):
+    def __init__(self):
+        self.state: State = None
+
     @abstractmethod
-    def update(self, state: State, measurement: Dict) -> None:
-        pass
+    def update(self, state: State, measurement: Dict) -> State:
+        raise NotImplementedError
     
     def get_state(self) -> State:
         return self.state
