@@ -1,14 +1,21 @@
+from dataclasses import dataclass
 from typing import Dict
 import numpy as np
 
-from src.state_estimator.filter.base import Filter, State
+from src.state_estimator.filter.base import Filter, FilterParams
+from src.state_estimator.state_estimator import State
 
+
+@dataclass
+class KalmanFilterParams(FilterParams):
+    process_noise: np.ndarray
+    measurement_noise: np.ndarray
 
 class KalmanFilter(Filter):
-    def __init__(self, process_noise: np.ndarray, measurement_noise: np.ndarray):
-        super().__init__()
-        self.Q = process_noise
-        self.R = measurement_noise
+    def __init__(self, params: FilterParams):
+        super().__init__(params)
+        self.Q = params.process_noise
+        self.R = params.measurement_noise
         
     def update(self, state: State, measurement: Dict) -> State:
         # Kalman filter implementation

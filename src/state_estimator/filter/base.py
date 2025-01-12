@@ -1,18 +1,17 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Dict
-import numpy as np
 
+from src.state_estimator.state_estimator import State
 
 @dataclass
-class State:
-    position: np.ndarray  # 3D position
-    orientation: np.ndarray  # quaternion
-    velocity: np.ndarray  # 6D spatial velocity
-    covariance: np.ndarray  # State covariance matrix
+class FilterParams(ABC):
+    """Base dataclass for all filter parameters."""
+    filter_type: str
 
 class Filter(ABC):
-    def __init__(self):
+    def __init__(self, params: FilterParams):
+        self.params = params
         self.state: State = None
 
     @abstractmethod

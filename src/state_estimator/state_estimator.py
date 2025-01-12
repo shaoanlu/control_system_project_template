@@ -1,15 +1,24 @@
+from dataclasses import dataclass
+import numpy as np
 from typing import Dict, List, Tuple
 
 from src.state_estimator.filter.base import Filter, State
 
 
+@dataclass
+class State:
+    position: np.ndarray  # 3D position
+    orientation: np.ndarray  # quaternion
+    velocity: np.ndarray  # 6D spatial velocity
+    covariance: np.ndarray  # State covariance matrix
+
 class StateEstimator:
     """
     Example usage:
         estimator = StateEstimator()
-        estimator.add_filter('imu', ComplementaryFilter(alpha=0.98))
-        estimator.add_filter('joint', KalmanFilter(process_noise, measurement_noise))
-        estimator.add_filter('joint', ParticleFilter(num_particles))
+        estimator.add_filter('imu', ComplementaryFilter(cf_params))
+        estimator.add_filter('joint', KalmanFilter(kf_params))
+        estimator.add_filter('joint', ParticleFilter(pf_params))
         ...
         state = estimator.update({...})
     """

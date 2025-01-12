@@ -1,13 +1,19 @@
+from dataclasses import dataclass
 from typing import Dict
-import numpy as np
 
-from src.state_estimator.filter.base import Filter, State
+from src.state_estimator.filter.base import Filter, FilterParams
+from src.state_estimator.state_estimator import State
+
+
+@dataclass
+class ParticleFilterParams(FilterParams):
+    num_particles: int
 
 
 class ParticleFilter(Filter):
-    def __init__(self, num_particles: int):
-        super().__init__()
-        self.num_particles = num_particles
+    def __init__(self, params: FilterParams):
+        super().__init__(params)
+        self.num_particles = params.num_particles
         self.particles = None
         
     def update(self, state: State, measurement: Dict) -> State:
