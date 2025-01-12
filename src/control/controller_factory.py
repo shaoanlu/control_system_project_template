@@ -7,11 +7,10 @@ from src.control.algorithm.pid import PIDParams, PIDParamsBuilder, PID
 
 class ConfigFactory:
     """
-    To add a new controller config type:
-    1. Implement a new `ParamsBuilder` class.
-    2. Add it to `params_builder_map`.
+    This class build controller parameters from a configuration dictionary (which is loaded from yaml files).
     """
     def __init__(self):
+        # register parameter builders
         self.params_builder_map: Dict[str, Type[BaseControllerParams]] = {
             "mpc": MPCParamsBuilder,
             "pid": PIDParamsBuilder,
@@ -30,15 +29,15 @@ class ConfigFactory:
     
 class ControllerFactory:
     """
+    This class builds a controller based on the controller parameters (which is built by `ConfigFactory`).
+
     Example usage:
         config = load_yaml(path_to_config_file)
         controller_params = ConfigFactory(config).build()
         controller = ControllerFactory().build(controller_params)
-    
-    To add a new controller type:
-    1. Add it to `controller_map`.
     """
     def __init__(self):
+        # register controller classes
         self.controller_map: Dict[Type[BaseControllerParams], Type[BaseController]] = {
             MPCParams: MPC,
             PIDParams: PID,
