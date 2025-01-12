@@ -17,3 +17,36 @@
 ## Note
 - Use `tap` to hadle configs? so that type hint for config args can be simplified
 - Consider a ROS 2 system arch?
+
+## Todo
+### Control module template
+- [x] Add Draft structure
+- [x] Implement factory pattern
+- [x] Write documents
+- [ ] Testing
+  - [ ] Write tests for controller classes
+  - [ ] Write tests for factories
+  - [ ] Set up test coverage monitoring
+- [ ] Exception Handling
+  - [ ] Add parameter validation exceptions
+  - [ ] Add runtime exceptions
+### Estimation module template
+- [x] Draft observer structure
+- [x] Implement observer pattern
+- [ ] Tessting
+### Planning module template
+- [ ] Draft observer structure
+- [ ] Implement ??? pattern
+- [ ] Tessting
+### System Integration
+- [ ] Integration Tests
+  - [ ] End-to-end controller tests
+  - [ ] Configuration loading tests
+- [ ] GitHub Actions CI
+  - [ ] Add linting and code formatting (ruff)
+  - [ ] Add type checking (mypy)
+  - [ ] Set up code coverage reporting
+- [ ] Package Management
+  - [ ] Set up setup.py/project.toml
+  - [ ] Define dependencies
+
