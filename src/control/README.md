@@ -42,7 +42,7 @@ The control algorithms are organized in separate directories for several benefit
    - Algorithm-specific test fixtures
 
 
-### Adding New Controllers
+## Adding New Controllers
 To add a new controller type (e.g., LQR):
 
 1. Create new directory under `algorithm/`:
@@ -79,7 +79,7 @@ To add a new controller type (e.g., LQR):
     self.controller_map[LQRParams] = LQR
     ```
 
-### Configuration
+## Configuration
 Controllers are configured via YAML files:
 ```yaml
 control_type: "mppi"
