@@ -10,3 +10,7 @@
 
 ## Note
 - Use `tap` to hadle configs? so that type hint for config args can be simplified
+
+
+## Repo Structure
+![Visualization of this repo](./diagram.svg)
