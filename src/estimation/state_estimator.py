@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import numpy as np
 from typing import Dict, List, Tuple
 
-from src.state_estimator.filter.base import Filter, State
+from src.estimation.algorithm.base import Filter, State
 
 
 @dataclass

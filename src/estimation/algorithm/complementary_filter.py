@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Dict
 
-from src.state_estimator.filter.base import Filter, FilterParams
-from src.state_estimator.state_estimator import State
+from src.estimation.algorithm.base import Filter, FilterParams
+from src.estimation.state_estimator import State
 
 
 @dataclass
