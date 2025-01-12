@@ -44,7 +44,7 @@ The control algorithms are organized in separate directories for several benefit
 ## Adding New Controllers
 To add a new controller type (e.g., LQR):
 
-1. Create new directory under `algorithm/`:
+1. Create a new file under `algorithm/`:
     ```
     algorithm/
     └── lqr.py
