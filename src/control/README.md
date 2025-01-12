@@ -78,6 +78,8 @@ To add a new controller type (e.g., LQR):
     self.controller_map[LQRParams] = LQR
     ```
 
+4. Add/Update unit tests
+
 ## Configuration
 Controllers are configured via YAML files:
 ```yaml
