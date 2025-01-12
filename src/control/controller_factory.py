@@ -33,7 +33,7 @@ class ControllerFactory:
 
     Example usage:
         config = load_yaml(path_to_config_file)
-        controller_params = ConfigFactory(config).build()
+        controller_params = ConfigFactory().build(config)
         controller = ControllerFactory().build(controller_params)
     """
     def __init__(self):
