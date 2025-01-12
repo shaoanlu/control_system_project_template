@@ -56,11 +56,6 @@ graph TB
     Estimation --> Control
     Planning --> Control
     Env --> Estimation
-
-    style Control fill:#f9f,stroke:#333
-    style Estimation fill:#bbf,stroke:#333
-    style Planning fill:#bfb,stroke:#333
-    style Env fill:#fbb,stroke:#333
 ```
 
 ## Core Components
