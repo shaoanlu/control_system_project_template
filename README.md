@@ -16,3 +16,4 @@
 
 ## Note
 - Use `tap` to hadle configs? so that type hint for config args can be simplified
+- Consider a ROS 2 system arch?
