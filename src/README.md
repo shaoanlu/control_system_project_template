@@ -2,10 +2,10 @@
 ## System Architecture
 The repository implements a modular robotics control system with four main components:
 
-1. Control (`control`)
-2. Estimation (`estimation`)
-3. Planning (`planning`)
-4. Simulation environment (`env`)
+1. Control (`/control`)
+2. Estimation (`/estimation`)
+3. Planning (`/planning`)
+4. Simulation environment (`/env`)
 
 ```mermaid
 graph TB
