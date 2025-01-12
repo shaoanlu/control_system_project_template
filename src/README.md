@@ -60,39 +60,35 @@ graph TB
 
 ## Core Components
 ### 1. Control
-- Uses Factory pattern for configuration and instantiation
-- Key templates:
-    - [ControllerFactory](control/controller_factory.py) - Creates controller instances
-    - [BaseController](control/algorithm/base.py) - control algorithm interface
+Key templates:
+ - [ControllerFactory](control/controller_factory.py) - Creates controller instances
+ - [BaseController](control/algorithm/base.py) - Control algorithm interface
+
+Factory Pattern
+- Used in control module for configuration and instantiation
+- Separates object creation from algorithm logic
+
+Strategy Pattern
+- To be implemented. Enables runtime algorithm selection
   
 ### 2. Estimation
+Key templates:
+  - [StateEstimator](estimation/state_estimator.py) - Creates state estimator interface consisting of fileter algorithms
+  - [BaseFilter](estimation/algorithm/base.py) - Filter algorithm interface
 
-- Uses Observer pattern for sensor fusion
-- Key templates:
-    - [StateEstimator](estimation/state_estimator.py) - Creates state estimator interface consisting of fileter algorithms
-    - [BaseFilter](estimation/algorithm/base.py) - Filter algorithm interface
+Observer pattern
+- Implemented in state estimation for sensor fusion
+- Allows multiple filters to update state independently
 
 ### 3. Planning
-- Key templates:
-    - [BasePlanner](planning/base.py) - Planning interface
+- TBU
 
 ### 4. Simulation Environment
 - TBU
 
-## Design Patterns
-### 1. Factory Pattern
-- Used in control module for configuration and instantiation
-- Separates object creation from algorithm logic
-
-### 2. Observer Pattern
-- Implemented in state estimation for sensor fusion
-- Allows multiple filters to update state independently
-
-### 3. Strategy Pattern
-- To be implemented. Enables runtime algorithm selection
 
 ## Configuration
-- YAML-based configuration files in `config`
+- YAML-based configuration files in `/config`
 - Separate configs for:
     - Control parameters
     - Environment settings
