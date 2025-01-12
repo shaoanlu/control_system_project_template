@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from typing import Any, Dict
 
-from src.control.base import BaseController, BaseControllerParams
+from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
+from src.utils import load_dataclass_from_dict
 
 
 @dataclass
@@ -9,6 +11,14 @@ class PIDParams(BaseControllerParams):
     kp: float  # Proportional gain
     ki: float  # Integral gain
     kd: float  # Derivative gain
+
+class PIDParamsBuilder(BaseParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> PIDParams:
+        return load_dataclass_from_dict(
+            dataclass=PIDParams,
+            data_dict=config,
+            convert_list_to_array=False,
+        )
 
 class PID(BaseController):
     def __init__(self, params: PIDParams):

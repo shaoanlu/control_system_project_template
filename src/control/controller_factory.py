@@ -1,53 +1,29 @@
-from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, Type, Union
+from typing import Any, Dict, Type
 
-from src.control.base import BaseController, BaseControllerParams
-from src.control.mpc import MPCParams, MPC
-from src.control.pid import PIDParams, PID
-from src.utils import load_dataclass_from_dict
+from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
+from src.control.algorithm.mpc import MPCParams, MPCParamsBuilder, MPC
+from src.control.algorithm.pid import PIDParams, PIDParamsBuilder, PID
 
-
-class ParamsBuilder(ABC):
-    """Abstract base class for parameter builders."""
-    @abstractmethod
-    def build(self, config: Dict[str, Any]) -> BaseControllerParams:
-        pass
-
-class MPCParamsBuilder(ParamsBuilder):
-    def build(self, config: Dict[str, Any]) -> MPCParams:
-        return load_dataclass_from_dict(
-            dataclass=MPCParams,
-            data_dict=config,
-            convert_list_to_array=True
-        )
-
-class PIDParamsBuilder(ParamsBuilder):
-    def build(self, config: Dict[str, Any]) -> PIDParams:
-        return load_dataclass_from_dict(
-            dataclass=PIDParams,
-            data_dict=config,
-            convert_list_to_array=False,
-        )
 
 class ConfigFactory:
     """
-    To add a new controller type:
+    To add a new controller config type:
     1. Implement a new `ParamsBuilder` class.
     2. Add it to `params_builder_map`.
     """
     def __init__(self):
-        self.params_builder_map: Dict[str, Type] = {
+        self.params_builder_map: Dict[str, Type[BaseControllerParams]] = {
             "mpc": MPCParamsBuilder,
             "pid": PIDParamsBuilder,
         }
 
-    def build(self, config: Dict):
+    def build(self, config: Dict[str, Any]):
         control_type = config["control_type"].lower()
-        params_builder: ParamsBuilder = self.params_builder_map.get(control_type)
+        params_builder: BaseParamsBuilder = self.params_builder_map.get(control_type)
         if params_builder is None:
             raise ValueError(
                 f"Invalid control type: {control_type}. "
-                f"Valid types are: {list(self._builders.keys())}"
+                f"Valid types are: {list(self.params_builder_map.keys())}"
             )
         else:
             return params_builder.build(config)
@@ -63,13 +39,13 @@ class ControllerFactory:
     1. Add it to `controller_map`.
     """
     def __init__(self):
-        self.controller_map: Dict[Type, Type] = {
+        self.controller_map: Dict[Type[BaseControllerParams], Type[BaseController]] = {
             MPCParams: MPC,
             PIDParams: PID,
         }
         
     def build(self, params: BaseControllerParams) -> BaseController:
-        controller_class = self.controller_map.get(params.__class__)
+        controller_class = self.controller_map.get(type(params))
         if controller_class is None:
             raise ValueError(
                 f"Unsupported parameter type: {params.__class__.__name__}. "

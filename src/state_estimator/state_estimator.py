@@ -14,6 +14,8 @@ class State:
 
 class StateEstimator:
     """
+    Adopted the observer pattern to update the state based on multiple sensor measurements.
+
     Example usage:
         estimator = StateEstimator()
         estimator.add_filter('imu', ComplementaryFilter(cf_params))
