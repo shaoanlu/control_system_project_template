@@ -3,9 +3,6 @@ from dataclasses import dataclass
 import numpy as np
 from typing import Any, Dict, Union
 
-from src.control.algorithm.mpc import MPCParams
-from src.control.algorithm.pid import PIDParams
-
 @dataclass
 class BaseControllerParams(ABC):
     """Base dataclass for all controller parameters."""
@@ -18,7 +15,7 @@ class BaseParamsBuilder(ABC):
         pass
 
 class BaseController(ABC):
-    def __init__(self, config=Union[MPCParams, PIDParams], **kwargs):
+    def __init__(self, config=BaseControllerParams, **kwargs):
         pass
     
     @abstractmethod
