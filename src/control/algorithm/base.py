@@ -22,7 +22,7 @@ class ControllerParamsBuilder(ABC):
 
 
 class Controller(ABC):
-    def __init__(self, config=ControllerParams, **kwargs):
+    def __init__(self, config: ControllerParams, **kwargs):
         pass
 
     @abstractmethod
