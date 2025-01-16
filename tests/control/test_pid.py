@@ -1,5 +1,5 @@
 import unittest
-from typing import Dict, Any
+from typing import Any, Dict
 
 from src.control.algorithm.pid import PID, PIDParams, PIDParamsBuilder
 

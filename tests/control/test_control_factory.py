@@ -5,8 +5,6 @@ from typing import Any, Dict
 import numpy as np
 
 from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
-from src.control.algorithm.mpc import MPC, MPCParams
-from src.control.algorithm.pid import PID, PIDParams
 from src.control.controller_factory import ConfigFactory, ControllerFactory
 
 
