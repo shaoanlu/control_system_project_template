@@ -123,8 +123,10 @@ class TestFactories(unittest.TestCase):
 
     def test_controller_factory_invalid_params(self):
         # Test invalid parameter type
+        
+        @dataclass
         class InvalidParams(BaseControllerParams):
-            algorithm_type = "invalid_params"
+            algorithm_type: str = "invalid_params"
         
         invalid_params = InvalidParams()
         with self.assertRaises(ValueError):
