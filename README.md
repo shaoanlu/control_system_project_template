@@ -28,9 +28,8 @@
 - [x] Implement factory pattern
 - [x] Write documents
 - [ ] Testing
-  - [ ] Write tests for controller classes
+  - [x] Write tests for controller classes
   - [x] Write tests for factories
-  - [ ] Set up test coverage monitoring
 - [ ] Exception Handling
   - [ ] Add parameter validation exceptions
   - [ ] Add runtime exceptions

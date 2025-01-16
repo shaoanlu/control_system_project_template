@@ -39,3 +39,7 @@ class TestMPC(unittest.TestCase):
     def test_mpc_instantiation(self):
         controller = MPC(MPCParams(Q=np.eye(2), R=np.eye(1)))
         self.assertIsInstance(controller, MPC)
+
+
+if __name__ == "__main__":
+    unittest.main()

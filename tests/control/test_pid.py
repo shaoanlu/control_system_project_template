@@ -55,3 +55,7 @@ class TestPID(unittest.TestCase):
         # - D term = kd * (error - 0) / dt = 0.01 * 1.0 / 0.1 = 0.1
         expected_output = 1.0 + 0.01 + 0.1
         self.assertAlmostEqual(output, expected_output, places=6)
+
+
+if __name__ == "__main__":
+    unittest.main()
