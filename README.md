@@ -1,5 +1,9 @@
 # controller_project_template
 
+## Requirements
+- Python 3.10+
+- yaml
+
 ## References
 - https://github.com/facebookresearch/home-robot/tree/main
 - https://github.com/LeCAR-Lab/CoVO-MPC/tree/main
