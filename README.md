@@ -55,3 +55,7 @@
   - [ ] Define dependencies
   - [ ] Provide minimal Docker environment
 
+
+## Memo
+- `ruff format`
+- `ruff check` or `ruff check --fix`
