@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 from typing import Any, Dict
 
@@ -7,9 +7,9 @@ from src.utils import load_dataclass_from_dict
 
 @dataclass
 class MPCParams(BaseControllerParams):
-    algorithm_type: str = "mpc"
-    Q: np.ndarray  # Quadratic cost matrix for the state variables
-    R: np.ndarray  # Quadratic cost matrix for the control variables
+    Q: np.ndarray  # Diagonal elements of the quadratic cost matrix for the state variables
+    R: np.ndarray  # Diagonal elements of the quadratic cost matrix for the control variables
+    algorithm_type: str = field(init=False, default="mpc")
 
 class MPCParamsBuilder(BaseParamsBuilder):
     def build(self, config: Dict[str, Any]) -> MPCParams:
@@ -23,3 +23,6 @@ class MPCParamsBuilder(BaseParamsBuilder):
 class MPC(BaseController):
     def __init__(self, params: MPCParams):
         self.params = params
+
+    def control(self, state: np.ndarray, **kwargs) -> np.ndarray:
+        pass
