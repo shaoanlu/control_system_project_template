@@ -6,7 +6,7 @@ from src.planning.base import BasePlanner, BasePlannerParams
 
 
 @dataclass
-class RRTPlannerParams(BasePlannerParams):
+class RRTParams(BasePlannerParams):
     max_iter: int
     step_size: float
     goal_sample_rate: float
@@ -14,7 +14,7 @@ class RRTPlannerParams(BasePlannerParams):
     goal: Tuple[float, float]
 
 class RRT(BasePlanner):
-    def __init__(self, params: RRTPlannerParams):
+    def __init__(self, params: RRTParams):
         super().__init__(params)
         self.max_iter = params.max_iter
         self.step_size = params.step_size
