@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, KW_ONLY
 import numpy as np
 from typing import Any, Dict
 
@@ -7,9 +7,10 @@ from src.utils import load_dataclass_from_dict
 
 @dataclass
 class MPCParams(BaseControllerParams):
+    _: KW_ONLY  # Make all following fields keyword-only
     Q: np.ndarray  # Diagonal elements of the quadratic cost matrix for the state variables
     R: np.ndarray  # Diagonal elements of the quadratic cost matrix for the control variables
-    algorithm_type: str = field(init=False, default="mpc")
+    algorithm_type: str = field(default="mpc")
 
 class MPCParamsBuilder(BaseParamsBuilder):
     def build(self, config: Dict[str, Any]) -> MPCParams:

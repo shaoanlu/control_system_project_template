@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, KW_ONLY
 import numpy as np
-from typing import Any, Dict, Union
+from typing import Any, Dict
 
 @dataclass
 class BaseControllerParams(ABC):
     """Base dataclass for all controller parameters."""
+    _: KW_ONLY  # Make all following fields keyword-only
     algorithm_type: str
 
 class BaseParamsBuilder(ABC):

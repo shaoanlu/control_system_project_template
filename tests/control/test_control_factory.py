@@ -1,7 +1,7 @@
 import unittest
 from typing import Any, Dict
 import numpy as np
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, KW_ONLY
 
 from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
 from src.control.algorithm.pid import PID, PIDParams
@@ -12,8 +12,9 @@ from src.control.controller_factory import ConfigFactory, ControllerFactory
 
 @dataclass
 class DummyParams(BaseControllerParams):
+    _: KW_ONLY  # Make all following fields keyword-only
     value: int
-    algorithm_type: str = field(init=False, default="dummy")
+    algorithm_type: str = field(default="dummy")
 
 class DummyParamsBuilder(BaseParamsBuilder):
     @staticmethod
@@ -123,7 +124,7 @@ class TestFactories(unittest.TestCase):
     def test_controller_factory_invalid_params(self):
         # Test invalid parameter type
         class InvalidParams(BaseControllerParams):
-            pass
+            algorithm_type = "invalid_params"
         
         invalid_params = InvalidParams()
         with self.assertRaises(ValueError):
