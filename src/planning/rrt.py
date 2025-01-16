@@ -13,7 +13,7 @@ class RRTPlannerParams(BasePlannerParams):
     start: Tuple[float, float]
     goal: Tuple[float, float]
 
-class RRTPlanner(BasePlanner):
+class RRT(BasePlanner):
     def __init__(self, params: RRTPlannerParams):
         super().__init__(params)
         self.max_iter = params.max_iter
