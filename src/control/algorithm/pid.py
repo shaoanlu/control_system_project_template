@@ -33,10 +33,10 @@ class PID(Controller):
         self.prev_error = None
 
     def control(self, error: float, dt: float) -> float:
-        if not (self.prev_error):
+        if self.prev_error is None:
             self.prev_error = error
         error_diff = (error - self.prev_error) / dt
         self.prev_error = error
         self.integral += error * dt
 
-        return self.params.kp * error + self.params.ki * self.integral + self.kd * error_diff
+        return self.kp * error + self.ki * self.integral + self.kd * error_diff
