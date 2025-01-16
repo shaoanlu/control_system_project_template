@@ -29,7 +29,7 @@
 - [x] Write documents
 - [ ] Testing
   - [ ] Write tests for controller classes
-  - [ ] Write tests for factories
+  - [x] Write tests for factories
   - [ ] Set up test coverage monitoring
 - [ ] Exception Handling
   - [ ] Add parameter validation exceptions
@@ -47,11 +47,11 @@
   - [ ] End-to-end controller tests
   - [ ] Configuration loading tests
 - [ ] GitHub Actions CI
-  - [ ] Add linting and code formatting (ruff)
+  - [x] Add linting and code formatting (ruff)
   - [ ] Add type checking (mypy)
   - [ ] Set up code coverage reporting
 - [ ] Package Management
-  - [ ] Set up setup.py/project.toml
+  - [x] Set up setup.py/project.toml
   - [ ] Define dependencies
   - [ ] Provide minimal Docker environment
 
