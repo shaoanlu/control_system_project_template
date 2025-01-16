@@ -15,6 +15,9 @@ class ConfigFactory:
             "mpc": MPCParamsBuilder,
             "pid": PIDParamsBuilder,
         }
+    
+    def register_map(self, key: str, value: Type[BaseControllerParams]):
+        self.params_builder_map[key] = value
 
     def build(self, config: Dict[str, Any]):
         algorithm_type = config["algorithm_type"].lower()
@@ -25,7 +28,7 @@ class ConfigFactory:
                 f"Valid types are: {list(self.params_builder_map.keys())}"
             )
         else:
-            return params_builder.build(config)
+            return params_builder().build(config)
     
 class ControllerFactory:
     """
@@ -42,8 +45,13 @@ class ControllerFactory:
             MPCParams: MPC,
             PIDParams: PID,
         }
+        self.config_factory: ConfigFactory | None = None
+    
+    def register_map(self, key: Type[BaseControllerParams], value: Type[BaseController]):
+        self.controller_map[key] = value
         
     def build(self, params: BaseControllerParams) -> BaseController:
+        """Build controller from controller parameters."""
         controller_class = self.controller_map.get(type(params))
         if controller_class is None:
             raise ValueError(
@@ -51,3 +59,9 @@ class ControllerFactory:
                 f"Supported types are: {[cls.__name__ for cls in self.controller_map.keys()]}"
             )
         return controller_class(params)
+    
+    def build_from_dict(self, params: Dict[str, Any]) -> BaseController:
+        """Build controller from configuration dictionary."""
+        self.config_factory = ConfigFactory() if not self.config_factory else self.config_factory
+        controller_params = self.config_factory.build(params)
+        return self.build(controller_params)
