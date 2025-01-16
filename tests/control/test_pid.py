@@ -1,4 +1,4 @@
-from src.control.pid import PID, PIDParams
+from src.control.algorithm.pid import PID, PIDParams
 
 def test_pid():
     params = PIDParams(kp=1.0, ki=0.1, kd=0.01)
