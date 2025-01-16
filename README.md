@@ -27,7 +27,7 @@
 - [x] Add Draft structure
 - [x] Implement factory pattern
 - [x] Write documents
-- [ ] Testing
+- [x] Testing
   - [x] Write tests for controller classes
   - [x] Write tests for factories
 - [ ] Exception Handling
