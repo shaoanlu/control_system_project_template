@@ -44,21 +44,18 @@ class TestFactories(unittest.TestCase):
         self.controller_factory.register_map(DummyParams, DummyController)
         self.controller_factory.config_factory = self.config_factory
 
-        # Create sample configs
-        self.dummy_config = {"algorithm_type": "dummy", "value": 42}
-        self.mpc_config = {"algorithm_type": "mpc", "Q": np.eye(2), "R": np.eye(1)}
-        self.pid_config = {"algorithm_type": "pid", "kp": 1.0, "ki": 0.1, "kd": 0.01}
-
     def test_config_factory_with_dummy(self):
         # Test building dummy params
-        params = self.config_factory.build(self.dummy_config)
+        dummy_config = {"algorithm_type": "dummy", "value": 42}
+        params = self.config_factory.build(dummy_config)
         self.assertIsInstance(params, DummyParams)
         self.assertEqual(params.value, 42)
         self.assertEqual(params.algorithm_type, "dummy")
 
     def test_config_factory_with_mpc(self):
         # Test building MPC params
-        params = self.config_factory.build(self.mpc_config)
+        mpc_config = {"algorithm_type": "mpc", "Q": np.eye(2), "R": np.eye(1)}
+        params = self.config_factory.build(mpc_config)
         self.assertIsInstance(params, MPCParams)
         self.assertTrue(np.array_equal(params.Q, np.eye(2)))
         self.assertTrue(np.array_equal(params.R, np.eye(1)))
@@ -66,7 +63,8 @@ class TestFactories(unittest.TestCase):
 
     def test_config_factory_with_pid(self):
         # Test building PID params from config dictionary
-        params = self.config_factory.build(self.pid_config)
+        pid_config = {"algorithm_type": "pid", "kp": 1.0, "ki": 0.1, "kd": 0.01}
+        params = self.config_factory.build(pid_config)
 
         # No error should be raised and the params should match the config
         self.assertIsInstance(params, PIDParams)
