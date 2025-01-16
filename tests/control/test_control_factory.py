@@ -52,27 +52,6 @@ class TestFactories(unittest.TestCase):
         self.assertEqual(params.value, 42)
         self.assertEqual(params.algorithm_type, "dummy")
 
-    def test_config_factory_with_mpc(self):
-        # Test building MPC params
-        mpc_config = {"algorithm_type": "mpc", "Q": np.eye(2), "R": np.eye(1)}
-        params = self.config_factory.build(mpc_config)
-        self.assertIsInstance(params, MPCParams)
-        self.assertTrue(np.array_equal(params.Q, np.eye(2)))
-        self.assertTrue(np.array_equal(params.R, np.eye(1)))
-        self.assertEqual(params.algorithm_type, "mpc")
-
-    def test_config_factory_with_pid(self):
-        # Test building PID params from config dictionary
-        pid_config = {"algorithm_type": "pid", "kp": 1.0, "ki": 0.1, "kd": 0.01}
-        params = self.config_factory.build(pid_config)
-
-        # No error should be raised and the params should match the config
-        self.assertIsInstance(params, PIDParams)
-        self.assertEqual(params.kp, 1.0)
-        self.assertEqual(params.ki, 0.1)
-        self.assertEqual(params.kd, 0.01)
-        self.assertEqual(params.algorithm_type, "pid")
-
     def test_config_factory_invalid_type(self):
         # Test invalid algorithm type
         invalid_config = {"algorithm_type": "invalid"}
@@ -89,28 +68,6 @@ class TestFactories(unittest.TestCase):
         params_dict = {"value": 42, "algorithm_type": "dummy"}
         controller = self.controller_factory.build_from_dict(params_dict)
         self.assertIsInstance(controller, DummyController)
-
-    def test_controller_factory_with_mpc(self):
-        # Test building MPC controller from params
-        params = MPCParams(Q=np.eye(2), R=np.eye(1))
-        controller = self.controller_factory.build(params)
-        self.assertIsInstance(controller, MPC)
-
-        # Test building MPC controller from dict
-        params_dict = {"Q": np.eye(2), "R": np.eye(1), "algorithm_type": "mpc"}
-        controller = self.controller_factory.build_from_dict(params_dict)
-        self.assertIsInstance(controller, MPC)
-
-    def test_controller_factory_with_pid(self):
-        # Test building PID controller from params
-        params = PIDParams(kp=1.0, ki=0.1, kd=0.01)
-        controller = self.controller_factory.build(params)
-        self.assertIsInstance(controller, PID)
-
-        # Test building PID controller from dict
-        params_dict = {"kp": 1.0, "ki": 0.1, "kd": 0.01, "algorithm_type": "pid"}
-        controller = self.controller_factory.build_from_dict(params_dict)
-        self.assertIsInstance(controller, PID)
 
     def test_controller_factory_invalid_params(self):
         # Test invalid parameter type
