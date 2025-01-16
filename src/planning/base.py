@@ -3,13 +3,13 @@ from dataclasses import dataclass
 
 
 @dataclass
-class BasePlannerParams:
+class PlannerParams:
     """Base dataclass for all planner parameters."""
 
     planner_type: str
 
 
-class BasePlanner(ABC):
+class Planner(ABC):
     def __init__(self, config):
         self.config = config
 

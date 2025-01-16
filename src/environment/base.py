@@ -4,7 +4,7 @@ from typing import Any, Dict, Tuple
 import numpy as np
 
 
-class BaseEnvironment(ABC):
+class Env(ABC):
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self._init()

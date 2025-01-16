@@ -4,7 +4,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
+from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
 from src.control.algorithm.mpc import MPC, MPCParams
 from src.control.algorithm.pid import PID, PIDParams
 from src.control.controller_factory import ConfigFactory, ControllerFactory
@@ -14,19 +14,19 @@ from src.control.controller_factory import ConfigFactory, ControllerFactory
 
 
 @dataclass
-class DummyParams(BaseControllerParams):
+class DummyParams(ControllerParams):
     _: KW_ONLY  # Make all following fields keyword-only
     value: int
     algorithm_type: str = field(default="dummy")
 
 
-class DummyParamsBuilder(BaseParamsBuilder):
+class DummyControllerParamsBuilder(ControllerParamsBuilder):
     @staticmethod
     def build(config: Dict[str, Any]) -> DummyParams:
         return DummyParams(value=config.get("value", 0))
 
 
-class DummyController(BaseController):
+class DummyController(Controller):
     def __init__(self, params):
         self.params = params
 
@@ -40,7 +40,7 @@ class TestFactories(unittest.TestCase):
         self.controller_factory = ControllerFactory()
 
         # Add dummy classes to the factories' maps
-        self.config_factory.register_map("dummy", DummyParamsBuilder)
+        self.config_factory.register_map("dummy", DummyControllerParamsBuilder)
         self.controller_factory.register_map(DummyParams, DummyController)
         self.controller_factory.config_factory = self.config_factory
 
@@ -118,7 +118,7 @@ class TestFactories(unittest.TestCase):
         # Test invalid parameter type
 
         @dataclass
-        class InvalidParams(BaseControllerParams):
+        class InvalidParams(ControllerParams):
             algorithm_type: str = "invalid_params"
 
         invalid_params = InvalidParams()

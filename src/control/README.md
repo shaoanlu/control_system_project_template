@@ -52,17 +52,17 @@ To add a new controller type (e.g., MPPI):
 
 2. Implement required classes:
     ```python
-    class MPPIParams(BaseControllerParams):
+    class MPPIParams(ControllerParams):
         algorithm_type: str = "mppi"
         # Define other parameters
 
-    class MPPIParamsBuilder(BaseParamsBuilder):
+    class MPPIParamsBuilder(ControllerParamsBuilder):
         @classmethod
         def build(cls, config: Dict) -> MPPIParams:
             # Parameter building logic
             pass
 
-    class MPPI(BaseController):
+    class MPPI(Controller):
         def control(self, state: np.ndarray, **kwargs) -> np.ndarray:
             # Control computation logic
             pass

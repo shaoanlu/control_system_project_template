@@ -1,7 +1,7 @@
-from src.environment.base import BaseEnv
+from src.environment.base import Env
 
 
-class UnicycleEnv(BaseEnv):
+class UnicycleEnv(Env):
     def __init__(self, config):
         self.config = config
 

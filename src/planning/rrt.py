@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from src.planning.base import BasePlanner, BasePlannerParams
+from src.planning.base import Planner, PlannerParams
 
 
 @dataclass
-class RRTParams(BasePlannerParams):
+class RRTParams(PlannerParams):
     max_iter: int
     step_size: float
     goal_sample_rate: float
@@ -13,7 +13,7 @@ class RRTParams(BasePlannerParams):
     goal: Tuple[float, float]
 
 
-class RRT(BasePlanner):
+class RRT(Planner):
     def __init__(self, params: RRTParams):
         super().__init__(params)
         self.max_iter = params.max_iter

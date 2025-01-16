@@ -62,7 +62,7 @@ graph TB
 ### 1. Control
 Key templates:
  - [ControllerFactory](control/controller_factory.py) - Creates controller instances
- - [BaseController](control/algorithm/base.py) - Control algorithm interface
+ - [Controller](control/algorithm/base.py) - Control algorithm interface
 
 Factory Pattern
 - Used in control module for configuration and instantiation

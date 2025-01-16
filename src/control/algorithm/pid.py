@@ -1,12 +1,12 @@
 from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Dict
 
-from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
+from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
 from src.utils import load_dataclass_from_dict
 
 
 @dataclass
-class PIDParams(BaseControllerParams):
+class PIDParams(ControllerParams):
     _: KW_ONLY  # Make all following fields keyword-only
     kp: float  # Proportional gain
     ki: float  # Integral gain
@@ -14,7 +14,7 @@ class PIDParams(BaseControllerParams):
     algorithm_type: str = field(default="pid")
 
 
-class PIDParamsBuilder(BaseParamsBuilder):
+class PIDParamsBuilder(ControllerParamsBuilder):
     def build(self, config: Dict[str, Any]) -> PIDParams:
         return load_dataclass_from_dict(
             dataclass=PIDParams,
@@ -23,7 +23,7 @@ class PIDParamsBuilder(BaseParamsBuilder):
         )
 
 
-class PID(BaseController):
+class PID(Controller):
     def __init__(self, params: PIDParams):
         self.kp = params.kp
         self.ki = params.ki

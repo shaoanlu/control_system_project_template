@@ -6,23 +6,23 @@ import numpy as np
 
 
 @dataclass
-class BaseControllerParams(ABC):
+class ControllerParams(ABC):
     """Base dataclass for all controller parameters."""
 
     _: KW_ONLY  # Make all following fields keyword-only
     algorithm_type: str
 
 
-class BaseParamsBuilder(ABC):
+class ControllerParamsBuilder(ABC):
     """Abstract base class for parameter builders."""
 
     @abstractmethod
-    def build(self, config: Dict[str, Any]) -> BaseControllerParams:
+    def build(self, config: Dict[str, Any]) -> ControllerParams:
         pass
 
 
-class BaseController(ABC):
-    def __init__(self, config=BaseControllerParams, **kwargs):
+class Controller(ABC):
+    def __init__(self, config=ControllerParams, **kwargs):
         pass
 
     @abstractmethod
