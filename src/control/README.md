@@ -14,7 +14,7 @@ We use the Factory pattern for several key reasons:
 
 2. **Controller Instantiation**: The `ControllerFactory` provides a clean interface for creating controller instances without exposing their construction details.
     ```python
-    pythonCopycontroller = ControllerFactory().build(params)
+    controller = ControllerFactory().build(params)
     ```
 
 3. **Extensibility**: Adding new controller types only requires:
@@ -42,40 +42,39 @@ The control algorithms are organized in separate directories for several benefit
 
 
 ## Adding New Controllers
-To add a new controller type (e.g., LQR):
+To add a new controller type (e.g., MPPI):
 
 1. Create a new file under `algorithm/`:
     ```
     algorithm/
-    └── lqr.py
+    └── mppi.py
     ```
 
 2. Implement required classes:
     ```python
-    class LQRParams(BaseControllerParams):
-        def validate(self):
-            # Parameter validation logic
-            pass
+    class MPPIParams(BaseControllerParams):
+        algorithm_type: str = "mppi"
+        # Define other parameters
 
-    class LQRParamsBuilder(BaseParamsBuilder):
+    class MPPIParamsBuilder(BaseParamsBuilder):
         @classmethod
-        def build(cls, config: Dict) -> LQRParams:
+        def build(cls, config: Dict) -> MPPIParams:
             # Parameter building logic
             pass
 
-    class LQR(BaseController):
-        def compute_control(self, state):
+    class MPPI(BaseController):
+        def control(self, state: np.ndarray, **kwargs) -> np.ndarray:
             # Control computation logic
             pass
     ```
 
-3. Register in factories:
+3. Register in `control_factory.py`:
     ```python
     # In ConfigFactory
-    self.params_builder_map["lqr"] = LQRParamsBuilder
+    self.params_builder_map["mppi"] = MPPIParamsBuilder
 
     # In ControllerFactory
-    self.controller_map[LQRParams] = LQR
+    self.controller_map[MPPIParams] = MPPI
     ```
 
 4. Add/Update unit tests
