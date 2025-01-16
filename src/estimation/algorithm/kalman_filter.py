@@ -3,7 +3,7 @@ from typing import Dict
 import numpy as np
 
 from src.estimation.algorithm.base import Filter, FilterParams
-from src.estimation.state_estimator import State
+from src.estimation.state import State
 
 
 @dataclass

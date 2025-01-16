@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Dict
 
-from src.state_estimator.state_estimator import State
+from src.estimation.state import State
 
 @dataclass
 class FilterParams(ABC):

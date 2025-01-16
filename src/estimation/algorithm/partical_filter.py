@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Dict
 
 from src.estimation.algorithm.base import Filter, FilterParams
-from src.estimation.state_estimator import State
+from src.estimation.state import State
 
 
 @dataclass

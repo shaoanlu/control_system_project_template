@@ -2,15 +2,10 @@ from dataclasses import dataclass
 import numpy as np
 from typing import Dict, List, Tuple
 
-from src.estimation.algorithm.base import Filter, State
+from src.estimation.algorithm.base import Filter
+from src.estimation.state import State
 
 
-@dataclass
-class State:
-    position: np.ndarray  # 3D position
-    orientation: np.ndarray  # quaternion
-    velocity: np.ndarray  # 6D spatial velocity
-    covariance: np.ndarray  # State covariance matrix
 
 class StateEstimator:
     """
