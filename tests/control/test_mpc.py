@@ -35,3 +35,7 @@ class TestMPC(unittest.TestCase):
         invalid_config = {"algorithm_type": "mpc", "Q": np.eye(2)}  # missing R parameter
         with self.assertRaises(Exception):
             builder.build(invalid_config)
+
+    def test_mpc_instantiation(self):
+        controller = MPC(MPCParams(Q=np.eye(2), R=np.eye(1)))
+        self.assertIsInstance(controller, MPC)
