@@ -1,4 +1,4 @@
-from src.env.base import BaseEnv
+from src.environment.base import BaseEnv
 
 
 class UnicycleEnv(BaseEnv):

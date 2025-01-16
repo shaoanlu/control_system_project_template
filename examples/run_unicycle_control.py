@@ -1,5 +1,5 @@
 from src.control.controller_factory import ConfigFactory, ControllerFactory
-from src.env.unicycle import Unicycle
+from src.environment.unicycle import Unicycle
 from src.utils import load_yaml
 
 
