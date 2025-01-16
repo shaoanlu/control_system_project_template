@@ -1,9 +1,10 @@
-
-from src.env.unicycle import Unicycle
 from src.control.controller_factory import ConfigFactory, ControllerFactory
+from src.env.unicycle import Unicycle
 from src.utils import load_yaml
 
+
 PATH_CONTROLLER_CONFIG = "src/config/mpc_unicycle.yaml"
+
 
 def run_simulation():
     # Initialize environment
@@ -21,6 +22,7 @@ def run_simulation():
         controller.update(next_state, reward, done)
         if done:
             env.reset()
+
 
 if __name__ == "__main__":
     run_simulation()

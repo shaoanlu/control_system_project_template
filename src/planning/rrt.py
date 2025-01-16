@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import numpy as np
 from typing import Tuple
 
 from src.planning.base import BasePlanner, BasePlannerParams
@@ -12,6 +11,7 @@ class RRTParams(BasePlannerParams):
     goal_sample_rate: float
     start: Tuple[float, float]
     goal: Tuple[float, float]
+
 
 class RRT(BasePlanner):
     def __init__(self, params: RRTParams):

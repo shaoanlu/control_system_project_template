@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, KW_ONLY
+from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Dict
 
 from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
@@ -13,6 +13,7 @@ class PIDParams(BaseControllerParams):
     kd: float  # Derivative gain
     algorithm_type: str = field(default="pid")
 
+
 class PIDParamsBuilder(BaseParamsBuilder):
     def build(self, config: Dict[str, Any]) -> PIDParams:
         return load_dataclass_from_dict(
@@ -20,6 +21,7 @@ class PIDParamsBuilder(BaseParamsBuilder):
             data_dict=config,
             convert_list_to_array=False,
         )
+
 
 class PID(BaseController):
     def __init__(self, params: PIDParams):

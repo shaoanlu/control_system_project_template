@@ -1,14 +1,17 @@
 import unittest
+from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Dict
+
 import numpy as np
-from dataclasses import dataclass, field, KW_ONLY
 
 from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
-from src.control.algorithm.pid import PID, PIDParams
 from src.control.algorithm.mpc import MPC, MPCParams
+from src.control.algorithm.pid import PID, PIDParams
 from src.control.controller_factory import ConfigFactory, ControllerFactory
 
+
 # Create dummy classes for testing
+
 
 @dataclass
 class DummyParams(BaseControllerParams):
@@ -16,17 +19,20 @@ class DummyParams(BaseControllerParams):
     value: int
     algorithm_type: str = field(default="dummy")
 
+
 class DummyParamsBuilder(BaseParamsBuilder):
     @staticmethod
     def build(config: Dict[str, Any]) -> DummyParams:
         return DummyParams(value=config.get("value", 0))
-    
+
+
 class DummyController(BaseController):
     def __init__(self, params):
         self.params = params
 
     def control(self, state: np.ndarray, **kwargs) -> np.ndarray:
         pass
+
 
 class TestFactories(unittest.TestCase):
     def setUp(self):
@@ -37,23 +43,11 @@ class TestFactories(unittest.TestCase):
         self.config_factory.register_map("dummy", DummyParamsBuilder)
         self.controller_factory.register_map(DummyParams, DummyController)
         self.controller_factory.config_factory = self.config_factory
-        
+
         # Create sample configs
-        self.dummy_config = {
-            "algorithm_type": "dummy",
-            "value": 42
-        }
-        self.mpc_config = {
-            "algorithm_type": "mpc",
-            "Q": np.eye(2),
-            "R": np.eye(1)
-        }
-        self.pid_config = {
-            "algorithm_type": "pid",
-            "kp": 1.0,
-            "ki": 0.1,
-            "kd": 0.01
-        }
+        self.dummy_config = {"algorithm_type": "dummy", "value": 42}
+        self.mpc_config = {"algorithm_type": "mpc", "Q": np.eye(2), "R": np.eye(1)}
+        self.pid_config = {"algorithm_type": "pid", "kp": 1.0, "ki": 0.1, "kd": 0.01}
 
     def test_config_factory_with_dummy(self):
         # Test building dummy params
@@ -92,12 +86,11 @@ class TestFactories(unittest.TestCase):
         params = DummyParams(value=42)
         controller = self.controller_factory.build(params)
         self.assertIsInstance(controller, DummyController)
-        
+
         # Test building dummy controller from dict
         params_dict = {"value": 42, "algorithm_type": "dummy"}
         controller = self.controller_factory.build_from_dict(params_dict)
         self.assertIsInstance(controller, DummyController)
-
 
     def test_controller_factory_with_mpc(self):
         # Test building MPC controller from params
@@ -115,7 +108,7 @@ class TestFactories(unittest.TestCase):
         params = PIDParams(kp=1.0, ki=0.1, kd=0.01)
         controller = self.controller_factory.build(params)
         self.assertIsInstance(controller, PID)
-        
+
         # Test building PID controller from dict
         params_dict = {"kp": 1.0, "ki": 0.1, "kd": 0.01, "algorithm_type": "pid"}
         controller = self.controller_factory.build_from_dict(params_dict)
@@ -123,14 +116,15 @@ class TestFactories(unittest.TestCase):
 
     def test_controller_factory_invalid_params(self):
         # Test invalid parameter type
-        
+
         @dataclass
         class InvalidParams(BaseControllerParams):
             algorithm_type: str = "invalid_params"
-        
+
         invalid_params = InvalidParams()
         with self.assertRaises(ValueError):
             self.controller_factory.build(invalid_params)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

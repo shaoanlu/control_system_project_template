@@ -4,10 +4,13 @@ from typing import Dict
 
 from src.estimation.state import State
 
+
 @dataclass
 class FilterParams(ABC):
     """Base dataclass for all filter parameters."""
+
     algorithm_type: str
+
 
 class Filter(ABC):
     def __init__(self, params: FilterParams):
@@ -17,6 +20,6 @@ class Filter(ABC):
     @abstractmethod
     def update(self, state: State, measurement: Dict) -> State:
         raise NotImplementedError
-    
+
     def get_state(self) -> State:
         return self.state

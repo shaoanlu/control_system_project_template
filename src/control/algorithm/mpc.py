@@ -1,9 +1,11 @@
-from dataclasses import dataclass, field, KW_ONLY
-import numpy as np
+from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Dict
+
+import numpy as np
 
 from src.control.algorithm.base import BaseController, BaseControllerParams, BaseParamsBuilder
 from src.utils import load_dataclass_from_dict
+
 
 @dataclass
 class MPCParams(BaseControllerParams):
@@ -12,13 +14,10 @@ class MPCParams(BaseControllerParams):
     R: np.ndarray  # Diagonal elements of the quadratic cost matrix for the control variables
     algorithm_type: str = field(default="mpc")
 
+
 class MPCParamsBuilder(BaseParamsBuilder):
     def build(self, config: Dict[str, Any]) -> MPCParams:
-        return load_dataclass_from_dict(
-            dataclass=MPCParams,
-            data_dict=config,
-            convert_list_to_array=True
-        )
+        return load_dataclass_from_dict(dataclass=MPCParams, data_dict=config, convert_list_to_array=True)
 
 
 class MPC(BaseController):

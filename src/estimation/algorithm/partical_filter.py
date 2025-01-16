@@ -15,7 +15,7 @@ class ParticleFilter(Filter):
         super().__init__(params)
         self.num_particles = params.num_particles
         self.particles = None
-        
+
     def update(self, state: State, measurement: Dict) -> State:
         # Particle filter implementation
         pass

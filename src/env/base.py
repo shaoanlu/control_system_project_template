@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Any, Dict, Tuple
+
 import numpy as np
-from typing import Dict, Any, Tuple
+
 
 class BaseEnvironment(ABC):
     def __init__(self, config: Dict[str, Any]):

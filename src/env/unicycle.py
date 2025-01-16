@@ -1,5 +1,6 @@
 from src.env.base import BaseEnv
 
+
 class UnicycleEnv(BaseEnv):
     def __init__(self, config):
         self.config = config

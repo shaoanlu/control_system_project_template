@@ -1,4 +1,4 @@
-from src.control.mpc import MPCParams, MPC
+from src.control.mpc import MPC, MPCParams
 
 
 def solve_mpc(
