@@ -1,16 +1,24 @@
-from dataclasses import dataclass
-from typing import Dict
+from dataclasses import KW_ONLY, dataclass
+from typing import Any, Dict
 
 import numpy as np
 
-from src.estimation.algorithm.base import Filter, FilterParams
+from src.estimation.algorithm.base import Filter, FilterParams, FilterParamsBuilder
 from src.estimation.state import State
+from src.utils import load_dataclass_from_dict
 
 
 @dataclass
 class KalmanFilterParams(FilterParams):
+    _: KW_ONLY
     process_noise: np.ndarray
     measurement_noise: np.ndarray
+    algorithm_type: str = "kalman_filter"
+
+
+class KalmanFilterParamsBuilder(FilterParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> KalmanFilterParams:
+        return load_dataclass_from_dict(dataclass=KalmanFilterParams, data_dict=config, convert_list_to_array=True)
 
 
 class KalmanFilter(Filter):

@@ -1,13 +1,21 @@
-from dataclasses import dataclass
-from typing import Dict
+from dataclasses import KW_ONLY, dataclass
+from typing import Any, Dict
 
-from src.estimation.algorithm.base import Filter, FilterParams
+from src.estimation.algorithm.base import Filter, FilterParams, FilterParamsBuilder
 from src.estimation.state import State
+from src.utils import load_dataclass_from_dict
 
 
 @dataclass
 class ParticleFilterParams(FilterParams):
+    _: KW_ONLY
     num_particles: int
+    algorithm_type: str = "particle_filter"
+
+
+class ParticleFilterParamsBuilder(FilterParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> ParticleFilterParams:
+        return load_dataclass_from_dict(dataclass=ParticleFilterParams, data_dict=config, convert_list_to_array=False)
 
 
 class ParticleFilter(Filter):
@@ -18,4 +26,4 @@ class ParticleFilter(Filter):
 
     def update(self, state: State, measurement: Dict) -> State:
         # Particle filter implementation
-        pass
+        return state

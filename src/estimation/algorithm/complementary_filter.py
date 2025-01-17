@@ -1,13 +1,23 @@
-from dataclasses import dataclass
-from typing import Dict
+from dataclasses import KW_ONLY, dataclass
+from typing import Any, Dict
 
-from src.estimation.algorithm.base import Filter, FilterParams
+from src.estimation.algorithm.base import Filter, FilterParams, FilterParamsBuilder
 from src.estimation.state import State
+from src.utils import load_dataclass_from_dict
 
 
 @dataclass
 class ComplementaryFilterParams(FilterParams):
+    _: KW_ONLY
     alpha: float
+    algorithm_type: str = "complementary_filter"
+
+
+class ComplementaryFilterParamsBuilder(FilterParamsBuilder):
+    def build(self, config: Dict[str, Any]) -> ComplementaryFilterParams:
+        return load_dataclass_from_dict(
+            dataclass=ComplementaryFilterParams, data_dict=config, convert_list_to_array=False
+        )
 
 
 class ComplementaryFilter(Filter):
@@ -17,4 +27,4 @@ class ComplementaryFilter(Filter):
 
     def update(self, state: State, measurement: Dict) -> State:
         # Complementary filter implementation
-        pass
+        return state
