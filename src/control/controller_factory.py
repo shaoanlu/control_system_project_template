@@ -21,8 +21,8 @@ class ConfigFactory:
         self.params_builder_map[key] = value
 
     def build(self, config: Dict[str, Any]):
-        algorithm_type = config["algorithm_type"].lower()
-        params_builder: ControllerParamsBuilder = self.params_builder_map.get(algorithm_type)
+        algorithm_type: str = config["algorithm_type"].lower()
+        params_builder: Type[ControllerParamsBuilder] | None = self.params_builder_map.get(algorithm_type)
         if params_builder is None:
             raise ValueError(
                 f"Invalid algorithm type: {algorithm_type}. Valid types are: {list(self.params_builder_map.keys())}"
@@ -54,7 +54,7 @@ class ControllerFactory:
 
     def build(self, params: ControllerParams) -> Controller:
         """Build controller from controller parameters."""
-        controller_class = self.controller_map.get(type(params))
+        controller_class: Type[Controller] | None = self.controller_map.get(type(params))
         if controller_class is None:
             raise ValueError(
                 f"Unsupported parameter type: {params.__class__.__name__}. "
@@ -65,5 +65,5 @@ class ControllerFactory:
     def build_from_dict(self, params: Dict[str, Any]) -> Controller:
         """Build controller from configuration dictionary."""
         self.config_factory = ConfigFactory() if not self.config_factory else self.config_factory
-        controller_params = self.config_factory.build(params)
+        controller_params: ControllerParams = self.config_factory.build(params)
         return self.build(controller_params)
