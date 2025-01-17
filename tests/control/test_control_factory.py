@@ -38,8 +38,8 @@ class TestFactories(unittest.TestCase):
         self.controller_factory = ControllerFactory()
 
         # Add dummy classes to the factories' maps
-        self.config_factory.register_map("dummy", DummyControllerParamsBuilder)
-        self.controller_factory.register_map(DummyParams, DummyController)
+        self.config_factory.register_config("dummy", DummyControllerParamsBuilder)
+        self.controller_factory.register_controller(DummyParams, DummyController)
         self.controller_factory.config_factory = self.config_factory
 
     def test_config_factory_with_dummy(self):

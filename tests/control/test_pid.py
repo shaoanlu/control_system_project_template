@@ -47,7 +47,7 @@ class TestPID(unittest.TestCase):
         # When
         controller = PID(PIDParams(kp=1.0, ki=0.1, kd=0.01))
         controller.prev_error = 0.0
-        output = controller.control(error, dt)
+        output = controller.control(state=None, ref_state=None, error=error, dt=dt)
 
         # Then
         # - P term = kp * error = 1.0 * 1.0 = 1.0

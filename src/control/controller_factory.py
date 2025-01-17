@@ -17,7 +17,7 @@ class ConfigFactory:
             "pid": PIDParamsBuilder,
         }
 
-    def register_map(self, key: str, value: Type[ControllerParams]):
+    def register_config(self, key: str, value: Type[ControllerParams]):
         self.params_builder_map[key] = value
 
     def build(self, config: Dict[str, Any]):
@@ -49,7 +49,7 @@ class ControllerFactory:
         }
         self.config_factory: ConfigFactory | None = None
 
-    def register_map(self, key: Type[ControllerParams], value: Type[Controller]):
+    def register_controller(self, key: Type[ControllerParams], value: Type[Controller]):
         self.controller_map[key] = value
 
     def build(self, params: ControllerParams) -> Controller:

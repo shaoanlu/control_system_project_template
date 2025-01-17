@@ -1,6 +1,8 @@
 from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Dict
 
+import numpy as np
+
 from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
 from src.utils import load_dataclass_from_dict
 
@@ -32,11 +34,11 @@ class PID(Controller):
         self.integral = 0.0
         self.prev_error = None
 
-    def control(self, error: float, dt: float) -> float:
+    def control(self, state: np.ndarray, ref_state: np.array, error: float, dt: float) -> np.ndarray:
         if self.prev_error is None:
             self.prev_error = error
         error_diff = (error - self.prev_error) / dt
         self.prev_error = error
         self.integral += error * dt
 
-        return self.kp * error + self.ki * self.integral + self.kd * error_diff
+        return np.array(self.kp * error + self.ki * self.integral + self.kd * error_diff)
