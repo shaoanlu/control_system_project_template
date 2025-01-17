@@ -9,20 +9,23 @@ import mujoco
 from tqdm import tqdm
 
 from examples.mujoco_Go1Handstand.env_wrapper import Go1HandstandEnv
-from examples.mujoco_Go1Handstand.ppo import PPO, PPOParamsBuilder
+from examples.mujoco_Go1Handstand.ppo import PPO, PPOParams, PPOParamsBuilder
+from src.control.controller_factory import ControllerFactory
 
 
 def main():
-    # initialize simulator
+    # Instantiate simulator
     rng = jax.random.PRNGKey(12345)
     env = Go1HandstandEnv()
     jit_reset = jax.jit(env.reset)
     jit_step = jax.jit(env.step)
     state = jit_reset(rng)
 
-    # initialize controller
+    # Instantiate controller
+    factory = ControllerFactory()
+    factory.register_controller(PPOParams, PPO)
     ppo_params = PPOParamsBuilder().build()
-    controller = PPO(params=ppo_params)
+    controller = factory.build(params=ppo_params)
 
     # start closed-loop simulation
     rollout = []
