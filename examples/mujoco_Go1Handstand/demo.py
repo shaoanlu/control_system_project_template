@@ -17,9 +17,7 @@ def main():
     # Instantiate simulator
     rng = jax.random.PRNGKey(12345)
     env = Go1HandstandEnv()
-    jit_reset = jax.jit(env.reset)
-    jit_step = jax.jit(env.step)
-    state = jit_reset(rng)
+    state = env.reset(rng)
 
     # Instantiate controller
     factory = ControllerFactory()
@@ -32,7 +30,7 @@ def main():
     actions = []
     for i in tqdm(range(env.env_cfg.episode_length)):
         ctrl = controller.control(state.obs["state"])  # do not use privileged_state
-        state = jit_step(state, ctrl)
+        state = env.step(state, ctrl)
 
         # record result
         actions.append(ctrl)
