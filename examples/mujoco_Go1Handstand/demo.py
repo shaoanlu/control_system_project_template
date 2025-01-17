@@ -21,7 +21,6 @@ def main():
 
     # start closed-loop simulation
     rollout = []
-    rewards = []
     actions = []
     for i in range(env.env_cfg.episode_length // 2):
         ctrl = controller.control(state.obs)
