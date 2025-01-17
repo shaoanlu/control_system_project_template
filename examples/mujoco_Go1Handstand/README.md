@@ -20,3 +20,9 @@
 ```bash
 pip install mujoco mujoco_mjx brax playground mediapy
 ```
+
+## Execution
+```bash
+# navigate to root folder of the repo
+python3 examples/mujoco_Go1Handstand/demo.py
+```

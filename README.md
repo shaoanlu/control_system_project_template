@@ -30,6 +30,9 @@
 - [x] Testing
   - [x] Write tests for controller classes
   - [x] Write tests for factories
+- [ ] Demo script
+  - [x] mujoco_playground: [Go1Handstand](examples/mujoco_Go1Handstand)
+  - [ ] Unicycle MPC/PID
 - [ ] Exception Handling
   - [ ] Add parameter validation exceptions
   - [ ] Add runtime exceptions
@@ -38,7 +41,7 @@
 - [x] Implement observer pattern
 - [ ] Tessting
 ### Planning module template
-- [ ] Draft observer structure
+- [ ] Draft ??? structure
 - [ ] Implement ??? pattern
 - [ ] Tessting
 ### System Integration
