@@ -22,9 +22,12 @@ class PPOParamsBuilder(ControllerParamsBuilder):
     """
 
     def build(self, config: Dict = None) -> PPOParams:
+        if config is not None:
+            base_path = config["base_path"]
+        else:
+            base_path = "examples/mujoco_Go1Handstand/nn_params"
         num_layers = 4
         nn_params = {}
-        base_path = "examples/mujoco_Go1Handstand/nn_params"
         nn_params["norm_mean"] = np.load(f"{base_path}/state_mean.npy")
         nn_params["norm_std"] = np.load(f"{base_path}/state_std.npy")
         for i in range(num_layers):  # [0, 1, 2, 3]

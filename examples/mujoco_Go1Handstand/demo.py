@@ -3,8 +3,10 @@ This demo script is modified from the locomotion tutorial of mujoco_playground
 https://github.com/google-deepmind/mujoco_playground
 """
 
+import jax
 import mediapy
 import mujoco
+from tqdm import tqdm
 
 from examples.mujoco_Go1Handstand.env_wrapper import Go1HandstandEnv
 from examples.mujoco_Go1Handstand.ppo import PPO, PPOParamsBuilder
@@ -12,8 +14,11 @@ from examples.mujoco_Go1Handstand.ppo import PPO, PPOParamsBuilder
 
 def main():
     # initialize simulator
+    rng = jax.random.PRNGKey(12345)
     env = Go1HandstandEnv()
-    state = env.reset()
+    jit_reset = jax.jit(env.reset)
+    jit_step = jax.jit(env.step)
+    state = jit_reset(rng)
 
     # initialize controller
     ppo_params = PPOParamsBuilder().build()
@@ -22,9 +27,9 @@ def main():
     # start closed-loop simulation
     rollout = []
     actions = []
-    for i in range(env.env_cfg.episode_length // 2):
-        ctrl = controller.control(state.obs)
-        state = env.step(state, ctrl)
+    for i in tqdm(range(env.env_cfg.episode_length)):
+        ctrl = controller.control(state.obs["state"])  # do not use privileged_state
+        state = jit_step(state, ctrl)
 
         # record result
         actions.append(ctrl)
