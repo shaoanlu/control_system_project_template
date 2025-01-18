@@ -26,9 +26,9 @@ We use the Factory pattern for several key reasons:
 The control algorithms are organized in separate directories for several benefits:
 
 1. **Modularity**: Each algorithm is self-contained with its own:
-   - Controller implementation (for control logic)
-   - Parameter dataclass (for parameter type/name definitions)
-   - Parameter builder (for customized preprocessing of the params from dict format)
+   - Controller implementation: for control logic
+   - Parameter dataclass: for parameter type/name definitions
+   - Parameter builder: for preprocessing of the params, e.g. conversion, validation, filtering etc.
 
 
 2. **Dependency Management**: Algorithms can have their own requirements without affecting others:
