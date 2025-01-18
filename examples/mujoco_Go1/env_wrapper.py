@@ -1,4 +1,5 @@
 from functools import partial
+from typing import Callable
 
 import jax
 import numpy as np
@@ -14,6 +15,7 @@ class Go1Env(Env):
     Go1Handstand environment has observation size of 45
     Go1JoystickFlatTerrain environment has observation size of 48 (45 + 3 commands)
     """
+
     go1_env_names = ["Go1Handstand", "Go1JoystickFlatTerrain"]
 
     def __init__(self, env_name: str):
@@ -23,17 +25,17 @@ class Go1Env(Env):
         self.env = registry.load(env_name, config=self.env_cfg)
 
     @partial(jax.jit, static_argnums=(0,))
-    def step(self, state: mjx_env.State, action: np.ndarray) -> np.ndarray:
+    def step(self, state: mjx_env.State, action: np.ndarray) -> mjx_env.State:
         return self.env.step(state, action)
 
     @partial(jax.jit, static_argnums=(0,))
-    def reset(self, rng: jax.Array):
+    def reset(self, rng: jax.Array) -> mjx_env.State:
         return self.env.reset(rng)
 
     @property
-    def render(self):
+    def render(self) -> Callable:
         return self.env.render
 
     @property
-    def dt(self):
+    def dt(self) -> float:
         return self.env.dt
