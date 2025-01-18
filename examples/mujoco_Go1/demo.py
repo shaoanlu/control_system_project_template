@@ -16,7 +16,7 @@ from src.control.controller_factory import ControllerFactory
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("env_name", default="Go1Handstand", choices=["Go1Handstand", "Go1JoystickFlatTerrain"])
+parser.add_argument("--env_name", default="Go1Handstand", choices=["Go1Handstand", "Go1JoystickFlatTerrain"])
 args = parser.parse_args()
 
 
