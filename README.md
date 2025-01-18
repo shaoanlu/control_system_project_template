@@ -1,7 +1,10 @@
 # controller_project_template
+The template aims to provide a maintainable and testable foundation for robotics control systems while allowing flexibility for different teams to customize their components.
+
 
 ## Requirements
 - Python 3.10+
+- numpy
 - yaml
 
 ## References
@@ -31,7 +34,7 @@
   - [x] Write tests for controller classes
   - [x] Write tests for factories
 - [ ] Demo script
-  - [x] mujoco_playground: [Go1Handstand](examples/mujoco_Go1Handstand)
+  - [x] mujoco_playground: [Go1](examples/mujoco_Go1) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shaoanlu/control_system_project_template/blob/main/examples/mujoco_Go1/colab_demo.ipynb)
   - [ ] Unicycle MPC/PID
 - [ ] Exception Handling
   - [ ] Add parameter validation exceptions
