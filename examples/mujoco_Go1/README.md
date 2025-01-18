@@ -37,11 +37,11 @@ In Google Colab
 !git clone https://github.com/shaoanlu/control_system_project_template.git
 
 # navigate to repo root
-%cd ontrol_system_project_template
+%cd control_system_project_template
 
 # run the demo
-!PYTHONPATH=$(pwd) python examples/mujoco_Go1/demo.py --env_name Go1Handstand
+!PYTHONPATH="/content/control_system_project_template" python examples/mujoco_Go1/demo.py --env_name Go1Handstand
 # or 
-!PYTHONPATH=$(pwd) python examples/mujoco_Go1/demo.py --env_name Go1JoystickFlatTerrain
+!PYTHONPATH="/content/control_system_project_template" python examples/mujoco_Go1/demo.py --env_name Go1JoystickFlatTerrain
 # or copy-paste demo.py to a Colab cell
 ```
