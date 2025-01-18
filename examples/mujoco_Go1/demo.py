@@ -31,7 +31,7 @@ def main():
     # Instantiate controller
     factory = ControllerFactory()
     factory.register_controller(PPOParams, PPO)
-    controller_config = {"base_path": f"examples/mujoco_Go1/nn_params/{env_name}"}
+    controller_config = {"npy_path": f"examples/mujoco_Go1/nn_params/{env_name}"}
     ppo_params = PPOParamsBuilder().build(config=controller_config)
     controller = factory.build(params=ppo_params)
 

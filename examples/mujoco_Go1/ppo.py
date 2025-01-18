@@ -23,17 +23,17 @@ class PPOParamsBuilder(ControllerParamsBuilder):
 
     def build(self, config: Dict = None) -> PPOParams:
         if config is not None:
-            base_path = config["base_path"]
+            npy_path = config["npy_path"]
         else:
-            base_path = "examples/mujoco_Go1/nn_params/Go1Handstand"
+            npy_path = "examples/mujoco_Go1/nn_params/Go1Handstand"
         num_layers = 4
         nn_params = {}
-        nn_params["norm_mean"] = np.load(f"{base_path}/state_mean.npy")
-        nn_params["norm_std"] = np.load(f"{base_path}/state_std.npy")
+        nn_params["norm_mean"] = np.load(f"{npy_path}/state_mean.npy")
+        nn_params["norm_std"] = np.load(f"{npy_path}/state_std.npy")
         for i in range(num_layers):  # [0, 1, 2, 3]
             nn_params[f"hidden_{i}"] = {}
-            nn_params[f"hidden_{i}"]["kernel"] = np.load(f"{base_path}/hidden_{i}_kernel.npy")
-            nn_params[f"hidden_{i}"]["bias"] = np.load(f"{base_path}/hidden_{i}_bias.npy")
+            nn_params[f"hidden_{i}"]["kernel"] = np.load(f"{npy_path}/hidden_{i}_kernel.npy")
+            nn_params[f"hidden_{i}"]["bias"] = np.load(f"{npy_path}/hidden_{i}_bias.npy")
         return PPOParams(nn_num_layers=num_layers, nn_params=nn_params, algorithm_type="ppo")
 
 
