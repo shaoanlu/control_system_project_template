@@ -9,6 +9,11 @@ from src.environment.base import Env
 
 
 class Go1Env(Env):
+    """
+    NOTE:
+    Go1Handstand environment has observation size of 45
+    Go1JoystickFlatTerrain environment has observation size of 48 (45 + 3 commands)
+    """
     go1_env_names = ["Go1Handstand", "Go1JoystickFlatTerrain"]
 
     def __init__(self, env_name: str):
