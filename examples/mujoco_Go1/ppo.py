@@ -76,7 +76,7 @@ class PPO(Controller):
 
             # output tanh activation
             x, _ = np.split(x, 2, axis=-1)  # split into loc and scale of a normal distribution
-            np.tanh(x)
+            x = np.tanh(x)
             return x
 
         self._inference: Callable = forward
