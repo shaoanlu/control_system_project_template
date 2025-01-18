@@ -22,26 +22,13 @@ pip install mujoco mujoco_mjx brax playground mediapy
 ```
 
 ## Execution
+### In colab
+See [`colab_demo`](colab_demo.ipynb) notebook or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shaoanlu/control_system_project_template/blob/main/examples/mujoco_Go1/colab_demo.ipynb)
+
+### Local
 ```bash
 # navigate to root folder of the repo
 python3 examples/mujoco_Go1/demo.py  --env_name Go1Handstand
 # or
 python3 examples/mujoco_Go1/demo.py  --env_name Go1JoystickFlatTerrain
-```
-
-In Google Colab
-```bash
-# Installation
-...
-# clone this repo
-!git clone https://github.com/shaoanlu/control_system_project_template.git
-
-# navigate to repo root
-%cd control_system_project_template
-
-# run the demo
-!PYTHONPATH="/content/control_system_project_template" python examples/mujoco_Go1/demo.py --env_name Go1Handstand
-# or 
-!PYTHONPATH="/content/control_system_project_template" python examples/mujoco_Go1/demo.py --env_name Go1JoystickFlatTerrain
-# or copy-paste demo.py to a Colab cell
 ```
