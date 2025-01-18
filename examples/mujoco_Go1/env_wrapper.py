@@ -39,3 +39,11 @@ class Go1Env(Env):
     @property
     def dt(self) -> float:
         return self.env.dt
+
+    @property
+    def get_global_linvel(self) -> jax.Array:
+        return self.env.get_global_linvel
+
+    @property
+    def get_gyro(self) -> jax.Array:
+        return self.env.get_gyro
