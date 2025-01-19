@@ -1,4 +1,4 @@
-# Adoptingg The Template to Make A New PPO Policy For Mujoco Go1 Tasks
+# Adopting The Template to Make A New PPO Policy For Mujoco Go1 Tasks
 
 ## File Description
 - `ppo.py`: Implement a MLP network as well as the `Controller` interfaces based on the repo template
