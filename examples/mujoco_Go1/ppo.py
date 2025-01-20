@@ -1,4 +1,4 @@
-from dataclasses import KW_ONLY, dataclass, field
+from dataclasses import dataclass, field
 from typing import Callable, Dict
 
 import numpy as np
@@ -6,11 +6,10 @@ import numpy as np
 from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class PPOParams(ControllerParams):
     """Base dataclass for all PPO parameters."""
 
-    _: KW_ONLY  # Make all following fields keyword-only
     nn_num_layers: int
     nn_params: Dict
     algorithm_type: str = field(default="ppo")

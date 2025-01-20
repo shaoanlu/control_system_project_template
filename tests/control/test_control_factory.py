@@ -1,5 +1,5 @@
 import unittest
-from dataclasses import KW_ONLY, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any, Dict
 
 import numpy as np
@@ -11,9 +11,8 @@ from src.control.controller_factory import ConfigFactory, ControllerFactory
 # Create dummy classes for testing
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class DummyParams(ControllerParams):
-    _: KW_ONLY  # Make all following fields keyword-only
     value: int
     algorithm_type: str = field(default="dummy")
 

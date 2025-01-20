@@ -1,4 +1,4 @@
-from dataclasses import KW_ONLY, dataclass
+from dataclasses import dataclass
 from typing import Any, Dict
 
 import numpy as np
@@ -8,9 +8,8 @@ from src.estimation.state import State
 from src.utils import load_dataclass_from_dict
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class KalmanFilterParams(FilterParams):
-    _: KW_ONLY
     process_noise: np.ndarray
     measurement_noise: np.ndarray
     algorithm_type: str = "kalman_filter"

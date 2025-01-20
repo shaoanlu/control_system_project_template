@@ -1,4 +1,4 @@
-from dataclasses import KW_ONLY, dataclass, field
+from dataclasses import dataclass, field
 from typing import Any, Dict
 
 import numpy as np
@@ -7,9 +7,8 @@ from src.control.algorithm.base import Controller, ControllerParams, ControllerP
 from src.utils import load_dataclass_from_dict
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class PIDParams(ControllerParams):
-    _: KW_ONLY  # Make all following fields keyword-only
     kp: float  # Proportional gain
     ki: float  # Integral gain
     kd: float  # Derivative gain

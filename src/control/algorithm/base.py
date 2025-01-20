@@ -1,15 +1,14 @@
 from abc import ABC, abstractmethod
-from dataclasses import KW_ONLY, dataclass
+from dataclasses import dataclass
 from typing import Any, Dict
 
 import numpy as np
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class ControllerParams(ABC):
     """Base dataclass for all controller parameters."""
 
-    _: KW_ONLY  # Make all following fields keyword-only
     algorithm_type: str
 
 

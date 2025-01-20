@@ -1,4 +1,4 @@
-from dataclasses import KW_ONLY, dataclass
+from dataclasses import dataclass
 from typing import Any, Dict
 
 from src.estimation.algorithm.base import Filter, FilterParams, FilterParamsBuilder
@@ -6,9 +6,8 @@ from src.estimation.state import State
 from src.utils import load_dataclass_from_dict
 
 
-@dataclass
+@dataclass(kw_only=True)  # Make all following fields keyword-only
 class ParticleFilterParams(FilterParams):
-    _: KW_ONLY
     num_particles: int
     algorithm_type: str = "particle_filter"
 
