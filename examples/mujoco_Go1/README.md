@@ -6,7 +6,7 @@
 - `demo.py`: The demo script. Result is shown below.
 
 ## Result
-![](gifs/ppo_Go1Handstand.gif) ![](gifs/ppo_Go1JoystickFlatTerrain.gif)
+![](gifs/ppo_Go1Handstand.gif) ![](gifs/ppo_Go1JoystickFlatTerrain.gif) ![](gifs/ppo_Go1Footstand_Go1Joystick_Go1Handstand.gif)
 
 ## Requirements
 - `mujoco`
