@@ -8,7 +8,7 @@
 - `colab_demo.ipynb`: Another demosacript, which show more usage of design patterns (Factory, Strategy, and Adapter) in the context of Go1 control.
 
 ## Result
-![](gifs/ppo_Go1JoystickFlatTerrain.gif) ![](gifs/ppo_Go1Footstand_Go1Joystick_Go1Handstand.gif)
+![](gifs/ppo_Go1JoystickFlatTerrain.gif) ![](gifs/ppo_Go1Handstand_Go1Getup_Go1Joystick_Go1Footstand.gif)
 
 ## Installation
 ```bash
