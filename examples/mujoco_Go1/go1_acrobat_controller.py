@@ -24,7 +24,8 @@ class PPOJoystick2HandstandAdapter(Controller):
     """
     PPO controller trained in Joystick env with necessary state and action adaptations to Handstand env
     In Joystick env:
-        motor_targets = state.data.qpos[7:] + action * 0.5
+        # self._default_pose: Array([ 0.1,  0.9, -1.8, -0.1,  0.9, -1.8,  0.1,  0.9, -1.8, -0.1,  0.9, -1.8], dtype=float32)
+        motor_targets = self._default_pose + action * 0.5
     In Handstand env:
         motor_targets = stata.data.ctrl + action * 0.3
 
