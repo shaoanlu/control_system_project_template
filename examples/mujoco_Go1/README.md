@@ -4,17 +4,10 @@
 - `ppo.py`: Implement a MLP network as well as the `Controller` interfaces based on the repo template
 - `env_wrapper.py` A wrapper to mujoco env to the `Env` interface of the repo template
 - `demo.py`: The demo script. Result is shown below.
+- `colab_demo.ipynb`: Another demosacript, which show more usage of design patterns (Factory, Strategy, and Adapter) in the context of Go1 control
 
 ## Result
 ![](gifs/ppo_Go1JoystickFlatTerrain.gif) ![](gifs/ppo_Go1Footstand_Go1Joystick_Go1Handstand.gif)
-
-## Requirements
-- `mujoco`
-- `mujoco_mjx`
-- `brax`
-- `mujoco_playground`
-- `mediapy`
-- `tqdm`
 
 ## Installation
 ```bash
@@ -22,7 +15,7 @@ pip install mujoco mujoco_mjx brax playground mediapy
 ```
 
 ## Execution
-### In colab
+### In colab (recommended)
 See [`colab_demo`](colab_demo.ipynb) notebook or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shaoanlu/control_system_project_template/blob/main/examples/mujoco_Go1/colab_demo.ipynb)
 
 ### Local
@@ -31,4 +24,49 @@ See [`colab_demo`](colab_demo.ipynb) notebook or [![Open In Colab](https://colab
 python3 examples/mujoco_Go1/demo.py  --env_name Go1Handstand
 # or
 python3 examples/mujoco_Go1/demo.py  --env_name Go1JoystickFlatTerrain
+```
+
+## Architecture
+```mermaid
+---
+title: Go1 PPO Controller Class Architecture
+---
+classDiagram
+    class Controller {
+        <<abstract>>
+        +control(state, command?, data?) np.ndarray
+    }
+
+    class Go1ControllerType {
+        <<enumeration>>
+        JOYSTICK
+        HANDSTAND
+        FOOTSTAND
+    }
+
+    class PPOJoystick2HandstandAdapter {
+        -_controller: Controller
+        -_src_env_action_scale: float
+        -_tar_env_action_scale: float
+        +control(state, command, data) np.ndarray
+    }
+
+    class Go1ControllerManager {
+        -_controllers: Dict[Go1ControllerType, Controller]
+        -_active_type: Go1ControllerType
+        -_command: np.ndarray
+        +set_command(command)
+        +switch_controller(controller_type)
+        +control(state) np.ndarray
+    }
+
+    class PPO {
+        +control()
+    }
+
+    Controller <|-- PPOJoystick2HandstandAdapter
+    Controller <|-- PPO
+    PPOJoystick2HandstandAdapter o-- Controller
+    Go1ControllerManager o-- "1..*" Controller
+    Go1ControllerManager o-- Go1ControllerType
 ```
