@@ -46,8 +46,8 @@ classDiagram
 
     class PPOJoystick2HandstandAdapter {
         -_controller: Controller
-        -_src_env_action_scale: float
-        -_tar_env_action_scale: float
+        -_src_env: Go1Env
+        -_tar_env: Go1Env
         +control(state, command, data) np.ndarray
     }
 
