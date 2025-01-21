@@ -1,10 +1,11 @@
 # Adopting The Template to Make A New PPO Policy For Mujoco Go1 Tasks
 
 ## File Description
-- `ppo.py`: Implement a MLP network as well as the `Controller` interfaces based on the repo template
-- `env_wrapper.py` A wrapper to mujoco env to the `Env` interface of the repo template
+- `ppo.py`: Implement a MLP network as well as the `Controller` interfaces based on the repo template.
+- `env_wrapper.py` A wrapper to mujoco env to the `Env` interface of the repo template.
+- `recovery_checker.py` Implement a falldown checker for the robot. Used for triggering the recovery (`Getup`) strategy.
 - `demo.py`: The demo script. Result is shown below.
-- `colab_demo.ipynb`: Another demosacript, which show more usage of design patterns (Factory, Strategy, and Adapter) in the context of Go1 control
+- `colab_demo.ipynb`: Another demosacript, which show more usage of design patterns (Factory, Strategy, and Adapter) in the context of Go1 control.
 
 ## Result
 ![](gifs/ppo_Go1JoystickFlatTerrain.gif) ![](gifs/ppo_Go1Footstand_Go1Joystick_Go1Handstand.gif)

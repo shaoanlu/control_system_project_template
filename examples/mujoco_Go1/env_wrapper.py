@@ -16,7 +16,7 @@ class Go1Env(Env):
     Go1JoystickFlatTerrain environment has observation size of 48 (45 + 3 commands)
     """
 
-    go1_env_names = ["Go1Handstand", "Go1JoystickFlatTerrain"]
+    go1_env_names = ["Go1Handstand", "Go1JoystickFlatTerrain", "Go1Getup", "Go1Footstand"]
 
     def __init__(self, env_name: str):
         if env_name not in self.go1_env_names:

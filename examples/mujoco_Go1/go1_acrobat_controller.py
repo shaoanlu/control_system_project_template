@@ -18,6 +18,7 @@ class Go1ControllerType(Enum):
     JOYSTICK = auto()
     HANDSTAND = auto()
     FOOTSTAND = auto()
+    GETUP = auto()
 
 
 class PPOJoystick2HandstandAdapter(Controller):
@@ -54,6 +55,36 @@ class PPOJoystick2HandstandAdapter(Controller):
         return action
 
 
+class PPOGetup2HandstandAdapter(Controller):
+    """
+    PPO controller trained in Getup env with necessary state and action adaptations to Handstand env
+    In Getup env:
+        motor_targets = state.data.qpos[7:] + action * 0.5
+    In Handstand env:
+        motor_targets = stata.data.ctrl + action * 0.3
+
+    This controller performs the necessary adaptations in .control() to the state and action
+    """
+
+    def __init__(self, controller: Controller, getup_env: Any, handstand_env: Any):
+        self._controller = controller
+        self._src_env_action_scale = getup_env.env_cfg.action_scale
+        self._tar_env_action_scale = handstand_env.env_cfg.action_scale
+
+    def control(self, state: mjx_env.State, command: np.ndarray, data: mjx.Data) -> np.ndarray:
+        """Control with state and action space adaptation."""
+        # Adapt state for Getup control
+        state = state[3:]  # remove first 3 linvel elements
+
+        # Get control action
+        action: np.ndarray = self._controller.control(state)
+
+        # Adapt action space
+        action = (self._src_env_action_scale * action - data.ctrl + data.qpos[7:]) / self._tar_env_action_scale
+
+        return action
+
+
 class Go1ControllerManager:
     """Manages multiple controllers and handles transitions between them."""
 
@@ -78,7 +109,7 @@ class Go1ControllerManager:
         """Get control action from current active controller."""
         controller = self._controllers[self._active_type]
 
-        if self._active_type == Go1ControllerType.JOYSTICK:
+        if (self._active_type == Go1ControllerType.JOYSTICK) or (self._active_type == Go1ControllerType.GETUP):
             # Joystick controller requires command input
             return controller.control(state.obs["state"], self._command, state.data)
 
@@ -92,6 +123,7 @@ def create_go1_acrobat_controller_manager(
     controller_configs: Dict[Go1ControllerType, Dict[str, Any]],
     joystick_env: Go1Env,
     handstand_env: Go1Env,
+    getup_env: Go1Env,
 ) -> Go1ControllerManager:
     """
     Create a configured Go1ControllerManager.
@@ -110,12 +142,15 @@ def create_go1_acrobat_controller_manager(
         params = params_builder.build(config=config)
         base_controller = controller_factory.build(params=params)
 
-        # Wrap joystick controller with adaptation, leave others as is
-        # since joystick env has different observation space as well as action scaling/offset
-        # see PPOJoystick2HandstandAdapter for more details
+        # Wrap joystick and getup controller with adapter and leave others as is
+        # Regarding the adapter, refer to PPOEnvName2HandstandAdapter for more details
         if controller_type == Go1ControllerType.JOYSTICK:
             controllers[controller_type] = PPOJoystick2HandstandAdapter(
                 controller=base_controller, joystick_env=joystick_env, handstand_env=handstand_env
+            )
+        elif controller_type == Go1ControllerType.GETUP:
+            controllers[controller_type] = PPOGetup2HandstandAdapter(
+                controller=base_controller, getup_env=getup_env, handstand_env=handstand_env
             )
         else:
             controllers[controller_type] = base_controller
