@@ -21,11 +21,12 @@ class ConfigFactory:
         self.params_builder_map[key] = value
 
     def build(self, config: Dict[str, Any]):
-        algorithm_type: str = config["algorithm_type"].lower()
+        algorithm_type: str = config.get("algorithm_type", "algorithm_type_not_defined").lower()
         params_builder: Type[ControllerParamsBuilder] | None = self.params_builder_map.get(algorithm_type)
         if params_builder is None:
             raise ValueError(
                 f"Invalid algorithm type: {algorithm_type}. Valid types are: {list(self.params_builder_map.keys())}"
+                "\n config: {config}"
             )
         else:
             return params_builder().build(config)
