@@ -87,7 +87,8 @@ class Go1ControllerManager:
 
 
 def create_go1_acrobat_controller_manager(
-    factory: ControllerFactory,
+    controller_factory: ControllerFactory,
+    config_builder: PPOParamsBuilder,
     controller_configs: Dict[Go1ControllerType, Dict[str, Any]],
     joystick_env: Go1Env,
     handstand_env: Go1Env,
@@ -104,11 +105,10 @@ def create_go1_acrobat_controller_manager(
     controllers = {}
 
     # Create each controller
-    factory.register_controller(PPOParams, PPO)
-    params_builder = PPOParamsBuilder()
+    controller_factory.register_controller(PPOParams, PPO)
     for controller_type, config in controller_configs.items():
-        params = params_builder.build(config=config)
-        base_controller = factory.build(params=params)
+        params = config_builder.build(config=config)
+        base_controller = controller_factory.build(params=params)
 
         # Wrap joystick controller with adaptation, leave others as is
         # since joystick env has different observation space as well as action scaling/offset
