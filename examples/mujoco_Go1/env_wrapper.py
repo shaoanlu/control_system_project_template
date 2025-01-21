@@ -21,7 +21,7 @@ class Go1Env(Env):
     def __init__(self, env_name: str):
         if env_name not in self.go1_env_names:
             raise ValueError(f"Unsupported Go1 environment {env_name}Supported environment are: {self.go1_env_names}")
-        self.env_cfg = registry.get_default_config(env_name)
+        self.env_cfg = self.load_config(env_name)
         self.env = registry.load(env_name, config=self.env_cfg)
 
     @partial(jax.jit, static_argnums=(0,))
@@ -31,6 +31,10 @@ class Go1Env(Env):
     @partial(jax.jit, static_argnums=(0,))
     def reset(self, rng: jax.Array) -> mjx_env.State:
         return self.env.reset(rng)
+
+    @staticmethod
+    def load_config(env_name: str) -> dict:
+        return registry.get_default_config(env_name)
 
     @property
     def render(self) -> Callable:

@@ -3,8 +3,10 @@ from typing import Any, Dict
 
 import jax
 import numpy as np
+from mujoco import mjx
 from mujoco_playground._src import mjx_env
 
+from examples.mujoco_Go1.ppo import PPO, PPOParams, PPOParamsBuilder
 from src.control.algorithm.base import Controller
 from src.control.controller_factory import ControllerFactory
 
@@ -30,19 +32,19 @@ class PPOJoystick2HandstandAdapter(Controller):
 
     def __init__(self, controller: Controller, src_env_config: Any, tar_env_config: Any):
         self._controller = controller
+        self._src_env_action_scale = src_env_config.action_scale
+        self._tar_env_action_scale = tar_env_config.action_scale
 
-    def control(self, state: mjx_env.State, command: np.ndarray) -> np.ndarray:
+    def control(self, state: mjx_env.State, command: np.ndarray, data: mjx.Data) -> np.ndarray:
         """Control with state and action space adaptation."""
         # Adapt state for joystick control
-        state.obs["state"] = jax.numpy.concat([state.obs["state"], command])
+        state = jax.numpy.concat([state, command])
 
         # Get control action
-        action: np.ndarray = self._controller.control(state.obs["state"])
+        action: np.ndarray = self._controller.control(state)
 
         # Adapt action space
-        action = (
-            self._tar_env_action_scale * action - state.data.ctrl + state.data.qpos[7:]
-        ) / self._src_env_action_scale
+        action = (self._tar_env_action_scale * action - data.ctrl + data.qpos[7:]) / self._src_env_action_scale
 
         return action
 
@@ -71,6 +73,10 @@ class Go1ControllerManager:
         """Get control action from current active controller."""
         controller = self._controllers[self._active_type]
 
+        if self._active_type == Go1ControllerType.JOYSTICK:
+            # Joystick controller requires command input
+            return controller.control(state.obs["state"], self._command, state.data)
+
         # Other controllers use standard control
         return controller.control(state.obs["state"])
 
@@ -93,8 +99,11 @@ def create_go1_acrobat_controller_manager(
     controllers = {}
 
     # Create each controller
+    factory.register_controller(PPOParams, PPO)
+    params_builder = PPOParamsBuilder()
     for controller_type, config in controller_configs.items():
-        base_controller = factory.build_from_dict(params=config)
+        params = params_builder.build(config=config)
+        base_controller = factory.build(params=params)
 
         # Wrap joystick controller with adaptation, leave others as is
         # since joystick env has different observation space as well as action scaling/offset
