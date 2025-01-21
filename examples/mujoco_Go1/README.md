@@ -29,12 +29,40 @@ python3 examples/mujoco_Go1/demo.py  --env_name Go1JoystickFlatTerrain
 ## Architecture
 ```mermaid
 ---
-title: Go1 PPO Controller Class Architecture
+title: Go1 PPO Controller Class Hierarchy
 ---
 classDiagram
     class Controller {
         <<abstract>>
         +control(state, command?, data?) np.ndarray
+    }
+
+    class ControllerParams {
+        <<abstract>>
+    }
+
+    class ControllerParamsBuilder {
+        <<abstract>>
+        +build(config: Dict)*
+    }
+
+    class PPOParams {
+        +nn_num_layers: int
+        +nn_params: Dict
+        +algorithm_type: str
+    }
+
+    class PPOParamsBuilder {
+        +build(config: Dict) PPOParams
+    }
+
+    class PPO {
+        -params: PPOParams
+        -_inference: Callable
+        +__init__(params: PPOParams)
+        +control(state) np.ndarray
+        +build_network()
+        -forward(x: np.ndarray)
     }
 
     class Go1ControllerType {
@@ -60,13 +88,13 @@ classDiagram
         +control(state) np.ndarray
     }
 
-    class PPO {
-        +control()
-    }
-
     Controller <|-- PPOJoystick2HandstandAdapter
     Controller <|-- PPO
     PPOJoystick2HandstandAdapter o-- Controller
     Go1ControllerManager o-- "1..*" Controller
     Go1ControllerManager o-- Go1ControllerType
+    ControllerParams <|-- PPOParams
+    ControllerParamsBuilder <|-- PPOParamsBuilder
+    PPOParamsBuilder ..> PPOParams : creates
+    PPO o-- PPOParams
 ```
