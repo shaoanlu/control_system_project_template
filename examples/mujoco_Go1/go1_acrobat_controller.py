@@ -6,6 +6,7 @@ import numpy as np
 from mujoco import mjx
 from mujoco_playground._src import mjx_env
 
+from examples.mujoco_Go1.env_wrapper import Go1Env
 from examples.mujoco_Go1.ppo import PPO, PPOParams, PPOParamsBuilder
 from src.control.algorithm.base import Controller
 from src.control.controller_factory import ControllerFactory
@@ -30,10 +31,11 @@ class PPOJoystick2HandstandAdapter(Controller):
     This controller performs the necessary adaptations in .control() to the state and action
     """
 
-    def __init__(self, controller: Controller, src_env_config: Any, tar_env_config: Any):
+    def __init__(self, controller: Controller, joystick_env: Any, handstand_env: Any):
         self._controller = controller
-        self._src_env_action_scale = src_env_config.action_scale
-        self._tar_env_action_scale = tar_env_config.action_scale
+        self._src_env_action_scale = joystick_env.env_cfg.action_scale
+        self._tar_env_action_scale = handstand_env.env_cfg.action_scale
+        self._src_default_pose = joystick_env.env._default_pose
 
     def control(self, state: mjx_env.State, command: np.ndarray, data: mjx.Data) -> np.ndarray:
         """Control with state and action space adaptation."""
@@ -44,7 +46,9 @@ class PPOJoystick2HandstandAdapter(Controller):
         action: np.ndarray = self._controller.control(state)
 
         # Adapt action space
-        action = (self._tar_env_action_scale * action - data.ctrl + data.qpos[7:]) / self._src_env_action_scale
+        action = (
+            self._src_env_action_scale * action - data.ctrl + self._src_default_pose
+        ) / self._tar_env_action_scale
 
         return action
 
@@ -84,8 +88,8 @@ class Go1ControllerManager:
 def create_go1_acrobat_controller_manager(
     factory: ControllerFactory,
     controller_configs: Dict[Go1ControllerType, Dict[str, Any]],
-    joystick_env_config: Any,
-    handstand_env_config: Any,
+    joystick_env: Go1Env,
+    handstand_env: Go1Env,
 ) -> Go1ControllerManager:
     """
     Create a configured Go1ControllerManager.
@@ -110,7 +114,7 @@ def create_go1_acrobat_controller_manager(
         # see PPOJoystick2HandstandAdapter for more details
         if controller_type == Go1ControllerType.JOYSTICK:
             controllers[controller_type] = PPOJoystick2HandstandAdapter(
-                controller=base_controller, src_env_config=joystick_env_config, tar_env_config=handstand_env_config
+                controller=base_controller, joystick_env=joystick_env, handstand_env=handstand_env
             )
         else:
             controllers[controller_type] = base_controller
