@@ -98,3 +98,8 @@ classDiagram
     PPOParamsBuilder ..> PPOParams : creates
     PPO o-- PPOParams
 ```
+
+
+### Learning notes
+- Each Go robot task uses a different environmental configuration (including noise parameters, keyframes, initial poses, randomization settings, actuation calculations, etc.). Policies trained for one task generally don't perform well when applied to different task environments.
+  - I was a little bit surprised as I expect RL policies be more robust.
