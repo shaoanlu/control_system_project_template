@@ -17,10 +17,10 @@ class ConfigFactory:
             "pid": PIDParamsBuilder,
         }
 
-    def register_config(self, key: str, value: Type[ControllerParams]):
+    def register_config(self, key: str, value: Type[ControllerParams]) -> None:
         self.params_builder_map[key] = value
 
-    def build(self, config: Dict[str, Any]):
+    def build(self, config: Dict[str, Any]) -> ControllerParams:
         algorithm_type: str = config.get("algorithm_type", "algorithm_type_not_defined").lower()
         params_builder: Type[ControllerParamsBuilder] | None = self.params_builder_map.get(algorithm_type)
         if params_builder is None:
@@ -64,7 +64,12 @@ class ControllerFactory:
         return controller_class(params)
 
     def build_from_dict(self, params: Dict[str, Any]) -> Controller:
-        """Build controller from configuration dictionary."""
+        """
+        Build controller from configuration dictionary by first building controller parameters.
+        Use this method when the dict is simple and its definition does not affect code readability.
+
+        NOTE: ther will be errors if the configuration is not registered in the ConfigFactory.
+        """
         self.config_factory = ConfigFactory() if not self.config_factory else self.config_factory
         controller_params: ControllerParams = self.config_factory.build(params)
         return self.build(controller_params)

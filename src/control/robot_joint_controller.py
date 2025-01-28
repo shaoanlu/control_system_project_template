@@ -30,3 +30,12 @@ class JointController:
         shuold be replaced with the actual upstream interface
         """
         pass
+
+    def _fallback_control(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Implement the fallback control logic here for each joint
+
+        Input and output temporarily set as dictionaries and
+        shuold be replaced with the actual upstream interface
+        """
+        pass
