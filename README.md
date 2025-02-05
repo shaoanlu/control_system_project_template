@@ -34,7 +34,7 @@ The template aims to provide a maintainable and testable foundation for robotics
   - [x] Write tests for controller classes
   - [x] Write tests for factories
 - [ ] Demo script
-  - [x] mujoco_playground: [Go1](examples/mujoco_Go1) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shaoanlu/control_system_project_template/blob/main/examples/mujoco_Go1/colab_demo.ipynb)
+  - [x] mujoco_playground: [Go1](examples/mujoco_Go1) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shaoanlu/llm_mjx_go1_playground/blob/main/examples/locomotion.ipynb)
   - [ ] Unicycle MPC/PID
 - [ ] Exception Handling
   - [ ] Add parameter validation exceptions
