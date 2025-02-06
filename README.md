@@ -14,6 +14,7 @@ The template aims to provide a maintainable and testable foundation for robotics
 - https://github.com/sea-bass/pyroboplan
 - https://github.com/Simple-Robotics/aligator/tree/main
 - https://github.com/LeCAR-Lab/dial-mpc/tree/main
+- https://github.com/Physical-Intelligence/openpi
 
 ## Considerations
 - Assume each module (`src/control`, `src/state_estimation`, etc) are maintained by different teams

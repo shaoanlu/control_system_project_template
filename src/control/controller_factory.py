@@ -1,8 +1,8 @@
 from typing import Any, Dict, Type
 
-from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
-from src.control.algorithm.mpc import MPC, MPCParams, MPCParamsBuilder
-from src.control.algorithm.pid import PID, PIDParams, PIDParamsBuilder
+from src.control.algorithm.base import Controller, ControllerParams
+from src.control.algorithm.mpc import MPC, MPCParams
+from src.control.algorithm.pid import PID, PIDParams
 
 
 class ConfigFactory:
@@ -12,24 +12,24 @@ class ConfigFactory:
 
     def __init__(self):
         # register parameter builders
-        self.params_builder_map: Dict[str, Type[ControllerParams]] = {
-            "mpc": MPCParamsBuilder,
-            "pid": PIDParamsBuilder,
+        self.params_map: Dict[str, Type[ControllerParams]] = {
+            "mpc": MPCParams,
+            "pid": PIDParams,
         }
 
     def register_config(self, key: str, value: Type[ControllerParams]) -> None:
-        self.params_builder_map[key] = value
+        self.params_map[key] = value
 
     def build(self, config: Dict[str, Any]) -> ControllerParams:
         algorithm_type: str = config.get("algorithm_type", "algorithm_type_not_defined").lower()
-        params_builder: Type[ControllerParamsBuilder] | None = self.params_builder_map.get(algorithm_type)
-        if params_builder is None:
+        params: Type[ControllerParams] | None = self.params_map.get(algorithm_type)
+        if params is None:
             raise ValueError(
-                f"Invalid algorithm type: {algorithm_type}. Valid types are: {list(self.params_builder_map.keys())}"
+                f"Invalid algorithm type: {algorithm_type}. Valid types are: {list(self.params_map.keys())}"
                 "\n config: {config}"
             )
         else:
-            return params_builder().build(config)
+            return params.from_dict(config)
 
 
 class ControllerFactory:

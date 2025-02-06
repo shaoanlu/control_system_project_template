@@ -56,12 +56,6 @@ To add a new controller type (e.g., MPPI):
         algorithm_type: str = "mppi"
         # Define other parameters
 
-    class MPPIParamsBuilder(ControllerParamsBuilder):
-        @classmethod
-        def build(cls, config: Dict) -> MPPIParams:
-            # Parameter building logic
-            pass
-
     class MPPI(Controller):
         def control(self, state: np.ndarray, **kwargs) -> np.ndarray:
             # Control computation logic
@@ -71,7 +65,7 @@ To add a new controller type (e.g., MPPI):
 3. Register in `control_factory.py`:
     ```python
     # In ConfigFactory
-    self.params_builder_map["mppi"] = MPPIParamsBuilder
+    self.params_map["mppi"] = MPPIParams
 
     # In ControllerFactory
     self.controller_map[MPPIParams] = MPPI
@@ -91,3 +85,4 @@ constraints:
 model_params:
   # Model-specific parameters
 ```
+

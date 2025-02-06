@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from src.control.algorithm.base import Controller, ControllerParams, ControllerParamsBuilder
+from src.control.algorithm.base import Controller, ControllerParams
 from src.utils import load_dataclass_from_dict
 
 
@@ -13,16 +13,6 @@ class PIDParams(ControllerParams):
     ki: float  # Integral gain
     kd: float  # Derivative gain
     algorithm_type: str = field(default="pid")
-
-
-class PIDParamsBuilder(ControllerParamsBuilder):
-    def build(self, config: Dict[str, Any]) -> PIDParams:
-        return load_dataclass_from_dict(
-            dataclass=PIDParams,
-            data_dict=config,
-            convert_list_to_array=False,
-        )
-
 
 class PID(Controller):
     def __init__(self, params: PIDParams):

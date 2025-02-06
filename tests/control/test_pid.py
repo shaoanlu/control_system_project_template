@@ -1,7 +1,7 @@
 import unittest
 from typing import Any, Dict
 
-from src.control.algorithm.pid import PID, PIDParams, PIDParamsBuilder
+from src.control.algorithm.pid import PID, PIDParams
 
 
 class TestPID(unittest.TestCase):
@@ -21,11 +21,10 @@ class TestPID(unittest.TestCase):
         with self.assertRaises(TypeError):
             params = PIDParams(1.0, 0.1, 0.01)  # should fail as positional args
 
-    def test_pid_params_builder(self):
+    def test_pid_params_building(self):
         """Test PID parameters builder"""
         config: Dict[str, Any] = {"algorithm_type": "pid", "kp": 1.0, "ki": 0.1, "kd": 0.01}
-        builder = PIDParamsBuilder()
-        params = builder.build(config)
+        params = PIDParams.from_dict(config)
 
         self.assertIsInstance(params, PIDParams)
         self.assertEqual(params.kp, 1.0)
@@ -36,7 +35,7 @@ class TestPID(unittest.TestCase):
         # Test with missing required parameters
         invalid_config = {"algorithm_type": "pid", "kp": 1.0}  # missing ki and kd
         with self.assertRaises(Exception):
-            builder.build(invalid_config)
+            PIDParams.from_dict(invalid_config)
 
     def test_pid_control(self):
         """Test first control step (when prev_error is None)"""

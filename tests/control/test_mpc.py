@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.control.algorithm.mpc import MPC, MPCParams, MPCParamsBuilder
+from src.control.algorithm.mpc import MPC, MPCParams
 
 
 class TestMPC(unittest.TestCase):
@@ -24,8 +24,7 @@ class TestMPC(unittest.TestCase):
     def test_mpc_params_builder(self):
         """Test MPC parameters builder"""
         config = {"algorithm_type": "mpc", "Q": np.eye(2), "R": np.eye(1)}
-        builder = MPCParamsBuilder()
-        params = builder.build(config)
+        params = MPCParams.from_dict(config)
         self.assertIsInstance(params, MPCParams)
         self.assertTrue(np.array_equal(params.Q, np.eye(2)))
         self.assertTrue(np.array_equal(params.R, np.eye(1)))
@@ -34,7 +33,7 @@ class TestMPC(unittest.TestCase):
         # Test with missing required parameters
         invalid_config = {"algorithm_type": "mpc", "Q": np.eye(2)}  # missing R parameter
         with self.assertRaises(Exception):
-            builder.build(invalid_config)
+            MPCParams.from_dict(invalid_config)
 
     def test_mpc_instantiation(self):
         controller = MPC(MPCParams(Q=np.eye(2), R=np.eye(1)))
