@@ -12,6 +12,7 @@ class PIDParams(ControllerParams):
     kd: float  # Derivative gain
     algorithm_type: str = field(default="pid")
 
+
 class PID(Controller):
     def __init__(self, params: PIDParams):
         self.kp = params.kp
