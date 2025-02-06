@@ -24,6 +24,9 @@ class ComplementaryFilter(Filter):
         super().__init__(params)
         self.alpha = params.alpha
 
+    def process(self, data: dict) -> Any:
+        pass
+
     def update(self, state: State, measurement: Dict) -> State:
         # Complementary filter implementation
         return state

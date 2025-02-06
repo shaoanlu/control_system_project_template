@@ -1,5 +1,5 @@
 import unittest
-from typing import Dict
+from typing import Any, Dict
 
 import numpy as np
 
@@ -19,6 +19,9 @@ class DummyFilter(Filter):
     def __init__(self, params: FilterParams):
         super().__init__(params)
 
+    def process(self, data: dict) -> Any:
+        pass
+
     def update(self, state: State, measurement: Dict) -> State:
         self.state = state
         return state
@@ -29,6 +32,9 @@ class AddOneFilter(Filter):
 
     def __init__(self, params: FilterParams):
         super().__init__(params)
+
+    def process(self, data: dict) -> Any:
+        pass
 
     def update(self, state: State, measurement: Dict) -> State:
         self.state = State(x=state.x + 1, xd=state.xd + 1, info=state.info.copy())

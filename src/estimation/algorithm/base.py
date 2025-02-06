@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any, Dict, Protocol
 
 from src.estimation.state import State
 
@@ -20,10 +20,13 @@ class FilterParamsBuilder(ABC):
         pass
 
 
-class Filter(ABC):
+class Filter(Protocol):
     def __init__(self, params: FilterParams):
         self.params = params
         self.state: State = None
+
+    @abstractmethod
+    def process(self, **kwargs) -> Any: ...
 
     @abstractmethod
     def update(self, state: State, measurement: Dict, **kwargs) -> State:

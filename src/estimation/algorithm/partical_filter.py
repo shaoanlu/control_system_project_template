@@ -23,6 +23,9 @@ class ParticleFilter(Filter):
         self.num_particles = params.num_particles
         self.particles = None
 
+    def process(self, data: dict) -> Any:
+        pass
+
     def update(self, state: State, measurement: Dict) -> State:
         # Particle filter implementation
         return state

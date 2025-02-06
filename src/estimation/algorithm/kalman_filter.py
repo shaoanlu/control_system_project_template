@@ -26,6 +26,9 @@ class KalmanFilter(Filter):
         self.Q = params.process_noise
         self.R = params.measurement_noise
 
+    def process(self, data: dict) -> Any:
+        pass
+
     def update(self, state: State, measurement: Dict) -> State:
         # Kalman filter implementation
         predicted_state = self._predict(state)
