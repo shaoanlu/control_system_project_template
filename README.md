@@ -15,6 +15,7 @@ The template aims to provide a maintainable and testable foundation for robotics
 - https://github.com/Simple-Robotics/aligator/tree/main
 - https://github.com/LeCAR-Lab/dial-mpc/tree/main
 - https://github.com/Physical-Intelligence/openpi
+- https://github.com/krishauser/Klampt/tree/master/Python/klampt
 
 ## Considerations
 - Assume each module (`src/control`, `src/state_estimation`, etc) are maintained by different teams
